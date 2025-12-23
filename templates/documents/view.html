@@ -14,37 +14,137 @@
 <body>
 
     <header class="header">
+        <button id="menu-btn" class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
         <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo">
         <div class="header-texts">
-            <h1>Ijro intizomi</h1>
-            <p>Idoralar yagona elektron tizimi</p>
+            <h1><b>Ижро интизоми</b></h1>
+            <p>Идоралараро ягона электрон тизими</p>
         </div>
     </header>
 
-    <div class="control-panel">
-        <button id="zoom-in"><i class="fas fa-search-plus"></i></button>
-        <button id="zoom-out"><i class="fas fa-search-minus"></i></button>
-        <button id="rotate-cw"><i class="fas fa-rotate-right"></i></button>
-        <button id="rotate-ccw"><i class="fas fa-rotate-left"></i></button>
-        {% if pdf_preview %}
-        <a href="{{ pdf_preview }}" download class="download-btn">
-            <i class="fas fa-download"></i> Yuklab olish
-        </a>
-        {% endif %}
-    </div>
-
-    <div class="doc-con">
-        {% if pdf_preview %}
-        <img id="pdf-img" src="{{ pdf_preview }}" style="transform: rotate(0deg); max-width: 100%;">
-        {% else %}
-        <div class="no-preview">
-            <p>PDF rasm mavjud emas</p>
-            {% if doc and doc.pdf_image %}
-            <p>Field mavjud: {{ doc.pdf_image }}</p>
-            <p>URL: {{ doc.pdf_image.url }}</p>
-            {% endif %}
+    <aside id="sidebar" class="sidebar">
+        <h3>KC38023463</h3>
+        <h5>464-sonli</h5>
+        <h5 class="date">May, 8, 2025</h5>
+        <ul>
+            <li><span><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-building" viewBox="0 0 16 16">
+                        <path
+                            d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
+                        <path
+                            d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z" />
+                    </svg></span>
+                <span class="text">
+                    Namangan viloyati hokimligi
+                </span>
+            </li>
+            <li class="item">
+                <div class="title">
+                    <p>Kim tomonidan imzolangan</p>
+                </div>
+                <div class="texts">
+                    <span style="height: 100%; margin-left: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="22"
+                            height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                            <path fill-rule="evenodd"
+                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                        </svg></span>
+                    <span class="text">
+                        Bakiyeva Gulnaz Kadirjanovna | May 8, 2025 4:31 PM
+                    </span>
+                </div>
+            </li>
+            <li class="item">
+                <div class="title">
+                    <p>Xujjat ijrochisi</p>
+                </div>
+                <div class="texts">
+                    <span style="height: 100%; margin-left: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="22"
+                            height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                            <path fill-rule="evenodd"
+                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                        </svg></span>
+                    <span class="text">
+                        Gulnaz Bakiyeva Kadirjanovna
+                    </span>
+                </div>
+            </li>
+            <li class="item">
+                <div class="title">
+                    <p>ERI bergan tashkilot</p>
+                </div>
+                <div class="texts">
+                    <span style="height: 100%; margin-left: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="22"
+                            height="22" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+                            <path
+                                d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
+                            <path
+                                d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z" />
+                        </svg></span>
+                    <span class="text">
+                        UNICON-SOFT" MCHJ
+                    </span>
+                </div>
+            </li>
+            <li class="item">
+                <div class="title">
+                    <p>ERI amal qilish muddati</p>
+                </div>
+                <div class="texts">
+                    <span style="height: 100%; margin-left: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-calendar4" viewBox="0 0 16 16">
+  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+</svg></span>
+                    <span class="text">
+                        Oct 16, 2024 - Oct 16, 2026
+                    </span>
+                </div>
+            </li>
+            <li class="item">
+                <div class="title">
+                    <p>Imzolangan xujjat</p>
+                </div>
+                <div class="texts">
+                    <span style="height: 100%; margin-left: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+  <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+  <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+</svg></span>
+                    <span class="text">
+                        Oct 16, 2024 - Oct 16, 2026
+                    </span>
+                </div>
+            </li>
+        </ul>
+    </aside>
+    <div class="main">
+        <div class="doc-con">
+            <div class="control-panel">
+                <button id="zoom-in"><i class="fas fa-search-plus"></i></button>
+                <button id="zoom-out"><i class="fas fa-search-minus"></i></button>
+                <button id="rotate-cw"><i class="fas fa-rotate-right"></i></button>
+                <button id="rotate-ccw"><i class="fas fa-rotate-left"></i></button>
+                {% if pdf_preview %}
+                <a href="{{ pdf_preview }}" download class="download-btn">
+                    <i class="fas fa-download"></i> Yuklab olish
+                </a>
+                {% endif %}
+            </div>
+            <div class="doc-con">
+                {% if pdf_preview %}
+                <img id="pdf-img" src="{{ pdf_preview }}" style="transform: rotate(0deg); max-width: 100%;">
+                {% else %}
+                <div class="no-preview">
+                    <p>PDF rasm mavjud emas</p>
+                    {% if doc and doc.pdf_image %}
+                    <p>Field mavjud: {{ doc.pdf_image }}</p>
+                    <p>URL: {{ doc.pdf_image.url }}</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
         </div>
-        {% endif %}
     </div>
 
     <script>
@@ -116,6 +216,13 @@
         {% endif %}
     </script>
 
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+
+        menuBtn.onclick = () => {
+            document.body.classList.toggle('sidebar-open');
+        };
+    </script>
 
 </body>
 

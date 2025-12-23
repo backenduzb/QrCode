@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,18 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-y7^wr*v%5*&0-5^ant1iq8#bu(0=(4*l&6^1)ls-h@p8$@jj^c'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG') or True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS') if not DEBUG else '*']
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://fbd-production.up.railway.app"
-]
-
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        "https://fbd-production.up.railway.app"
+    ]
 
 # Application definition
 
@@ -126,16 +126,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-RECAPTCHA_PUBLIC_KEY = '6LdMizQsAAAAAIAxt19c6rEwVtu3q1by2zAWB1Ij'
-RECAPTCHA_PRIVATE_KEY = '6LdMizQsAAAAALcMwbWytdOT3yf1T3pt3iLcFyDr'
+if DEBUG:
+    RECAPTCHA_PUBLIC_KEY = '6LcsqDQsAAAAAG8hQskQtc1rgpeO0jITZF_f-0xK'
+    RECAPTCHA_PRIVATE_KEY = '6LcsqDQsAAAAAE5NbR5pkPJJplNxLBL8VJmvJt-X'
+else:    
+    RECAPTCHA_PUBLIC_KEY = '6LdMizQsAAAAAIAxt19c6rEwVtu3q1by2zAWB1Ij'
+    RECAPTCHA_PRIVATE_KEY = '6LdMizQsAAAAALcMwbWytdOT3yf1T3pt3iLcFyDr'
+
 
 # Agar localhostda test qilsangiz
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
