@@ -134,8 +134,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-RECAPTCHA_PUBLIC_KEY = '6LeuijQsAAAAACFHsLL__NO98aTdzKjF_WUZr07Y'
-RECAPTCHA_PRIVATE_KEY = '6LeuijQsAAAAAEbjCP8NOV3xXNmzecFT5pNL6svp'
+RECAPTCHA_PUBLIC_KEY = '6LdMizQsAAAAAIAxt19c6rEwVtu3q1by2zAWB1Ij'
+RECAPTCHA_PRIVATE_KEY = '6LdMizQsAAAAALcMwbWytdOT3yf1T3pt3iLcFyDr'
 
 # Agar localhostda test qilsangiz
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
