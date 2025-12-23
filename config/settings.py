@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSET_ORIGINS = [
-    'https://fbd-production.up.railway.app/'
+    'fbd-production.up.railway.app/'
 ]
 
 # Application definition
