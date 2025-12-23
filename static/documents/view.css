@@ -38,7 +38,7 @@ body {
 
 .control-panel {
     position: fixed;
-    top: 80px; 
+    top: 80px;
     width: 100%;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
@@ -49,7 +49,8 @@ body {
     z-index: 999;
 }
 
-.control-panel button, .control-panel .download-btn {
+.control-panel button,
+.control-panel .download-btn {
     background-color: #fff;
     border: 1px solid #888;
     border-radius: 5px;
@@ -59,7 +60,8 @@ body {
     transition: background-color 0.2s;
 }
 
-.control-panel button:hover, .control-panel .download-btn:hover {
+.control-panel button:hover,
+.control-panel .download-btn:hover {
     background-color: #e0e0e0;
 }
 
@@ -71,7 +73,7 @@ body {
 }
 
 .doc-con {
-    margin-top: 140px; 
+    margin-top: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,4 +99,3 @@ body {
     -webkit-user-drag: none;
     pointer-events: auto;
 }
-
