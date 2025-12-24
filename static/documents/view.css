@@ -1,13 +1,14 @@
 * {
     box-sizing: border-box;
-    /* user-select: none; */
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&display=swap");
 
 body {
     margin: 0;
-    padding-top: 80px; 
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Ubuntu, sans-serif;
+    padding-top: 80px;
+    font-family: "Source Sans 3", system-ui, -apple-system,
+                 "Segoe UI", Roboto, Ubuntu, sans-serif;
     background: #ffffff;
     color: #111827;
 }
@@ -21,6 +22,7 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    box-shadow: 2px 0px 5px rgb(213, 213, 213);
     height: 80px;
     padding: 10px 14px;
     background: #ffffff;
@@ -33,8 +35,8 @@ body {
 }
 
 .logo {
-    width: 64px;
-    height: 64px;
+    width: 50px;
+    height: 50px;
 }
 
 .header-texts {
@@ -46,17 +48,39 @@ body {
 
 .header-texts h1 {
     margin: 0;
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 300;
 }
 
 .header-texts p {
     margin: 0;
-    font-size: 13px;
+    font-size: 12px;
     color: #6b7280;
 }
 
+.vr {
+  width: 1px;
+  height: 60%;
+  background: #cdcfd3;
+}
+
+.zoom-container{
+    border-radius: 5px;
+    background-color: #eff0f0;
+    height: 30px;
+    padding: 10px 10px;
+    width: 145px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.zoom-container p{
+    font-size: 14px;
+}
+
 .control-panel {
+    height: 50px;
     position: fixed;
     top: 80px;
     width: 100%;
@@ -72,19 +96,20 @@ body {
 
 .control-panel button {
     all: unset;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     color: #374151;
-    transition: background 0.15s ease, transform 0.1s ease;
+    transition: background 0.15s ease, border 0.1s ease,transform 0.1s ease;
 }
 
 .control-panel button:hover {
     background: #f3f4f6;
+    border: 1px solid #374151;
 }
 
 .control-panel button:active {
@@ -155,16 +180,15 @@ body {
     margin-top: 10px;
 }
 
-
-
-
-
 .menu-btn {
+    margin-left: 40px;
     all: unset;
     cursor: pointer;
-    font-size: 22px;
     color: #374151;
-    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px;
     border-radius: 100%;
 }
 
@@ -175,6 +199,7 @@ body {
 body.sidebar-open .sidebar {
     transform: translateX(0);
 }
+
 
 
 body.sidebar-open .control-panel {
@@ -205,22 +230,25 @@ body .sidebar .date{
     color: #111827;
 }
 svg{
-    color: #4b586c;
+    color: #64748b;
 }
+
 ul{
+    height: 100vh;
     width: 109%;
     margin-left: -15px;
 }
 
 ul li{
+    height: auto;
     display:  flex;
     align-items: center;
     gap: 5px;
-    padding:15px 15px;
+    padding: 15px 15px;
     border-bottom: 0.5px solid #d7dfeb;
 }
 .item{
-    height: 100px;
+    height: auto;
     display: block;
 }
 
@@ -231,6 +259,7 @@ ul li .text{
 }
 
 .title{
+    font-size: 14px;
     margin-top: -15px;
     height: 30px;
 }
@@ -240,4 +269,80 @@ ul li .text{
     display: flex;
     align-items: center;
     justify-content: left;
+}
+.text{
+    color: #64748b;
+}
+
+
+.icon{
+    height: 16px;
+    width: 16px;
+}
+
+.others {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    display: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 250px;
+    gap: 10px;
+    background-color: #ffffff;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    box-shadow: 0px 0px 5px rgb(139, 139, 139);
+}
+
+body.others-open .others {
+    display: flex;
+}
+.others {
+    z-index: 999;
+}
+
+.mini-button{
+
+    border-radius: 10px;
+    width: 50px;
+    height: 5px;
+    background-color: #b4b4b4;
+}
+
+.menu-buttons-con{
+    gap: 1px;
+    gap: 10px;
+    margin-top: 15px;
+    height: 205px;
+    width: 100%;
+}
+
+.menu-buttons-con button{
+    margin-top: 4px;
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background-color: transparent;
+    border: none;
+    transition: all 100ms ease-in-out;
+    border-radius: 0;
+    gap: 5px;
+}
+.menu-buttons-con button:hover{
+    background-color: #205781;
+    color: white;
+    cursor: pointer;
+}
+.menu-buttons-con button:hover .cls-1{
+    fill: white;
+    color: white;
+}
+
+.menu-buttons-con button .cls-1{
+    fill: #abb0c4;
+    color: #abb0c4;
 }
