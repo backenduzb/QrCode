@@ -25,9 +25,9 @@
     </header>
 
     <aside id="sidebar" class="sidebar">
-        <h3>KC38023463</h3>
-        <h5>464-sonli</h5>
-        <h5 class="date">May, 8, 2025</h5>
+        <h3>{{ doc.document_code }}</h3>
+        <h5>{{ doc.ducument_son }}-sonli</h5>
+        <h5 class="date">{{ doc.ariza_berilgan }}</h5>
         <ul>
             <li><span><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                         class="bi bi-building" viewBox="0 0 16 16">
@@ -37,7 +37,7 @@
                             d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z" />
                     </svg></span>
                 <span class="text">
-                    Namangan viloyati hokimligi
+                    {{ doc.bergan_tashkilot }}
                 </span>
             </li>
             <li class="item">
@@ -52,7 +52,7 @@
                                 d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                         </svg></span>
                     <span class="text">
-                        Bakiyeva Gulnaz Kadirjanovna | May 8, 2025 4:31 PM
+                        {{ doc.imzolagan }}
                     </span>
                 </div>
             </li>
@@ -68,7 +68,7 @@
                                 d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                         </svg></span>
                     <span class="text">
-                        Gulnaz Bakiyeva Kadirjanovna
+                        {{ doc.ijrochi }}
                     </span>
                 </div>
             </li>
@@ -85,7 +85,7 @@
                                 d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z" />
                         </svg></span>
                     <span class="text">
-                        UNICON-SOFT" MCHJ
+                        {{ doc.eri_bergan }}
                     </span>
                 </div>
             </li>
@@ -98,7 +98,7 @@
   <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
 </svg></span>
                     <span class="text">
-                        Oct 16, 2024 - Oct 16, 2026
+                        {{ doc.eri_amal_qilish_b }} - {{ doc.eri_tugash }}
                     </span>
                 </div>
             </li>
@@ -112,7 +112,7 @@
   <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
 </svg></span>
                     <span class="text">
-                        Oct 16, 2024 - Oct 16, 2026
+                        {{ doc.imzolagan_h }}
                     </span>
                 </div>
             </li>

@@ -9,7 +9,6 @@ def access_doc(request, pk):
     captcha_passed = request.session.get(f'captcha_passed_{pk}', False)
 
     if not captcha_passed:
-        # Captcha formasi
         if request.method == 'POST':
             form = CaptchaForm(request.POST)
             if form.is_valid():
@@ -22,7 +21,6 @@ def access_doc(request, pk):
             'captcha_passed': captcha_passed
         })
 
-    # PIN formasi
     if request.method == 'POST':
         form = AccessForm(request.POST)
         if form.is_valid():

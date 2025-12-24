@@ -10,7 +10,8 @@ from django.contrib import admin
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
     readonly_fields = ('pin', 'qr_preview', 'pdf_preview')
-    fields = ('file', 'pin', 'qr_preview', 'pdf_preview')
+    fields = ('file', 'pin', 'qr_preview', 'pdf_preview','document_code', 'ducument_son', 'ariza_berilgan',
+              'bergan_tashkilot','imzolagan','ijrochi','eri_bergan','eri_amal_qilish_b','eri_tugash','imzolagan_h')
 
     def qr_preview(self, obj):
         if obj.qr:
