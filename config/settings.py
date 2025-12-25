@@ -142,7 +142,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # else:    
 RECAPTCHA_PUBLIC_KEY = '6LdMizQsAAAAAIAxt19c6rEwVtu3q1by2zAWB1Ij'
 RECAPTCHA_PRIVATE_KEY = '6LdMizQsAAAAALcMwbWytdOT3yf1T3pt3iLcFyDr'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Agar localhostda test qilsangiz
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
