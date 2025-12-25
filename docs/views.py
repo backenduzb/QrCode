@@ -10,12 +10,12 @@ def access_doc(request, pk):
     session_key = f'captcha_passed_{pk}'
     captcha_passed = request.session.get(session_key, False)
 
-    # if settings.DEBUG:
+    if settings.DEBUG:
 
-    #     return render(request, 'documents/view.html', {
-    #                 'doc': doc,
-    #                 'pdf_preview': doc.pdf_image.url
-    #             })
+        return render(request, 'documents/view.html', {
+                    'doc': doc,
+                    'pdf_preview': doc.pdf_image.url
+                })
     if not captcha_passed:
         if request.method == 'POST':
             form = CaptchaForm(request.POST)

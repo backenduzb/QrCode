@@ -45,7 +45,6 @@
 </div>
 
 <script>
-    // Loader'ni 1 sekunddan keyin yo'q qilish va container'ni ko'rsatish
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
             var loader = document.querySelector('.loader');
@@ -58,7 +57,6 @@
             if (container) {
                 container.classList.add('visible');
                 
-                // Agar reCAPTCHA mavjud bo'lsa, uni qayta yuklash
                 if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
                     setTimeout(function() {
                         var recaptchaElement = document.querySelector('.g-recaptcha');
