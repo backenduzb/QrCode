@@ -124,13 +124,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR / 'static')
-
+# STATIC_ROOT = os.path.join(BASE_DIR / 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR / 'static')]
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-RECAPTCHA_PUBLIC_KEY = '6LdMizQsAAAAAIAxt19c6rEwVtu3q1by2zAWB1Ij'
-RECAPTCHA_PRIVATE_KEY = '6LdMizQsAAAAALcMwbWytdOT3yf1T3pt3iLcFyDr'
+RECAPTCHA_PUBLIC_KEY = '6LcsqDQsAAAAAG8hQskQtc1rgpeO0jITZF_f-0xK'
+RECAPTCHA_PRIVATE_KEY = '6LcsqDQsAAAAAE5NbR5pkPJJplNxLBL8VJmvJt-X'

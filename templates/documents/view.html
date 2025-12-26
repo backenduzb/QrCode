@@ -1,8 +1,7 @@
-{% load static %}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="uz">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,20 +9,18 @@
     <link rel="stylesheet" href="{% static 'documents/view.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-
 <body>
     <header class="header">
         <button id="menu-btn" class="menu-btn">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" height="24" width="24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5">
-                </path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
             </svg>
         </button>
         <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo">
         <div class="header-texts">
-            <h1><b>Ижро интизоми</b></h1>
-            <p>Идоралараро ягона электрон тизими</p>
+            <h1><b data-i18n="system_name">Ижро интизоми</b></h1>
+            <p data-i18n="system_desc">Идоралараро ягона электрон тизими</p>
         </div>
     </header>
 
@@ -31,65 +28,55 @@
         <div class="menu-save-con">
             <div class="top">
                 <div class="mini-button" class="clear-all"></div>
-                <h3><b>Сохранить как</b></h3>
+                <h3><b data-i18n="save_as_title">Сохранить как</b></h3>
                 <button class="close-btn" id="close-save-btn">✕</button>
             </div>
-
             <div class="items">
-                <h4>Общий</h4>
-
+                <h4 data-i18n="general">Общий</h4>
                 <div class="form-group">
-                    <label>Имя файла</label>
+                    <label data-i18n="file_name">Имя файла</label>
                     <input type="text" value="{{ doc.document_code }}" class="text-input" />
                 </div>
-
                 <div class="form-group">
-                    <label>Тип файла</label>
+                    <label data-i18n="file_type">Тип файла</label>
                     <select name="file-select" id="file-select" class="select-input">
                         <option value="pdf">PDF (*.pdf)</option>
                         <option value="jpg">JPG (*.jpg)</option>
                     </select>
                 </div>
-
-                <h4>Диапазон страниц</h4>
-
+                <h4 data-i18n="page_range">Диапазон страниц</h4>
                 <div class="radio-container">
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="page-range" value="all" checked />
-                            <span>Все</span>
+                            <span data-i18n="all_pages">Все</span>
                         </label>
                         <label class="radio-label" style="margin-top: 20px;">
                             <input type="radio" name="page-range" value="current" />
-                            <span>Текущая страница</span>
+                            <span data-i18n="current_page">Текущая страница</span>
                         </label>
                     </div>
-
                     <div class="radio-group">
                         <label class="radio-label">
                             <input type="radio" name="page-range" value="specify" />
-                            <span>Укажите страницы</span>
+                            <span data-i18n="specify_pages">Укажите страницы</span>
                         </label>
                     </div>
                 </div>
-
-                <h4>Характеристики</h4>
-
+                <h4 data-i18n="properties">Характеристики</h4>
                 <div class="checkbox-row">
                     <label class="checkbox-label">
                         <input type="checkbox" checked />
-                        <span>Включить аннотации</span>
+                        <span data-i18n="include_annotations">Включить аннотации</span>
                     </label>
-
                     <label class="checkbox-label">
                         <input type="checkbox" />
-                        <span>Включить комментарии</span>
+                        <span data-i18n="include_comments">Включить комментарии</span>
                     </label>
                 </div>
             </div>
-
             <div class="footer">
-                <button class="save-btn" id="save-file-btn">Сохранить файл</button>
+                <button class="save-btn" id="save-file-btn" data-i18n="save_file">Сохранить файл</button>
             </div>
         </div>
     </aside>
@@ -100,50 +87,38 @@
             <a href="{{ doc.file.url }}" style="text-decoration: none;" download>
                 <button>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24">
-                        <path class="cls-1"
-                            d="M11.55,17,5.09,9.66a.6.6,0,0,1,.45-1H8.67V2.6a.6.6,0,0,1,.6-.6h5.46a.6.6,0,0,1,.6.6V8.67h3.13a.6.6,0,0,1,.45,1L12.45,17A.6.6,0,0,1,11.55,17ZM3.11,20.18V21.6a.4.4,0,0,0,.4.4h17a.4.4,0,0,0,.4-.4V20.18a.4.4,0,0,0-.4-.4h-17A.4.4,0,0,0,3.11,20.18Z">
-                        </path>
+                        <path class="cls-1" d="M11.55,17,5.09,9.66a.6.6,0,0,1,.45-1H8.67V2.6a.6.6,0,0,1,.6-.6h5.46a.6.6,0,0,1,.6.6V8.67h3.13a.6.6,0,0,1,.45,1L12.45,17A.6.6,0,0,1,11.55,17ZM3.11,20.18V21.6a.4.4,0,0,0,.4.4h17a.4.4,0,0,0,.4-.4V20.18a.4.4,0,0,0-.4-.4h-17A.4.4,0,0,0,3.11,20.18Z"></path>
                     </svg>
-                    <span>Скачать</span>
+                    <span data-i18n="download">Скачать</span>
                 </button>
             </a>
             <button id="fullscreen-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24">
-                    <path class="cls-1"
-                        d="M4.22,4.22H9.78V2H2V9.78H4.22ZM9.78,19.78H4.22V14.22H2V22H9.78ZM22,14.22H19.78v5.56H14.22V22H22ZM19.78,9.78H22V2H14.22V4.22h5.56Z">
-                    </path>
+                    <path class="cls-1" d="M4.22,4.22H9.78V2H2V9.78H4.22ZM9.78,19.78H4.22V14.22H2V22H9.78ZM22,14.22H19.78v5.56H14.22V22H22ZM19.78,9.78H22V2H14.22V4.22h5.56Z"></path>
                 </svg>
-                <span>Полно экранный</span>
+                <span data-i18n="fullscreen">Полно экранный</span>
             </button>
             <button id="save-as-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24">
-                    <path class="cls-1"
-                        d="M5 21H19C20.103 21 21 20.103 21 19V8C21 7.735 20.895 7.48 20.707 7.293L16.707 3.293C16.52 3.105 16.266 3 16 3H5C3.897 3 3 3.897 3 5V19C3 20.103 3.897 21 5 21ZM15 19H9V14H15V19ZM13 7H11V5H13V7ZM5 5H7V9H15V5H15.586L19 8.414L19.001 19H17V14C17 12.897 16.103 12 15 12H9C7.897 12 7 12.897 7 14V19H5V5Z">
-                    </path>
+                    <path class="cls-1" d="M5 21H19C20.103 21 21 20.103 21 19V8C21 7.735 20.895 7.48 20.707 7.293L16.707 3.293C16.52 3.105 16.266 3 16 3H5C3.897 3 3 3.897 3 5V19C3 20.103 3.897 21 5 21ZM15 19H9V14H15V19ZM13 7H11V5H13V7ZM5 5H7V9H15V5H15.586L19 8.414L19.001 19H17V14C17 12.897 16.103 12 15 12H9C7.897 12 7 12.897 7 14V19H5V5Z"></path>
                 </svg>
-                <span>Сохранить как</span>
+                <span data-i18n="save_as">Сохранить как</span>
             </button>
             <button>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24">
-                    <path class="cls-1"
-                        d="M20,6H18V2H6V6H4A2,2,0,0,0,2,8v9a2,2,0,0,0,2,2H6v3H18V19h2a2,2,0,0,0,2-2V8A2,2,0,0,0,20,6ZM8,4h8V6H8Zm8,16H8V16h8Zm4-3H18V14H6v3H4V8H20Zm-4-7h2v2H16Zm-3,0h2v2H13Z">
-                    </path>
+                    <path class="cls-1" d="M20,6H18V2H6V6H4A2,2,0,0,0,2,8v9a2,2,0,0,0,2,2H6v3H18V19h2a2,2,0,0,0,2-2V8A2,2,0,0,0,20,6ZM8,4h8V6H8Zm8,16H8V16h8Zm4-3H18V14H6v3H4V8H20Zm-4-7h2v2H16Zm-3,0h2v2H13Z"></path>
                 </svg>
-                <span>Распечатать</span>
+                <span data-i18n="print">Распечатать</span>
             </button>
             <div style="width: 100%; border-bottom: 0.5px solid #dedfdf; margin-top: 5px;"></div>
             <button>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24">
-                    <path class="cls-1"
-                        d="M12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Zm8.42-.6-.5-.29a7.74,7.74,0,0,0,0-2.22l.5-.29a2,2,0,0,0,.73-2.74l-1-1.72a2.06,2.06,0,0,0-2.73-.74l-.53.31A8.07,8.07,0,0,0,15,4.6V4a2,2,0,0,0-2-2H11A2,2,0,0,0,9,4v.6A8.07,8.07,0,0,0,7.1,5.71L6.57,5.4a2.07,2.07,0,0,0-2.73.73l-1,1.73a2,2,0,0,0,.73,2.74l.5.29a7.74,7.74,0,0,0,0,2.22l-.5.29a2,2,0,0,0-.73,2.74l1,1.73a2.05,2.05,0,0,0,2.72.73l.53-.31A8.07,8.07,0,0,0,9,19.4V20a2,2,0,0,0,2,2h2a2,2,0,0,0,2-2v-.6a8.07,8.07,0,0,0,1.9-1.11l.53.31a2.07,2.07,0,0,0,2.73-.73l1-1.73A2,2,0,0,0,20.42,13.4Zm-2.59-2.78A5.86,5.86,0,0,1,18,12a5.92,5.92,0,0,1-.17,1.38,1,1,0,0,0,.47,1.11l1.12.64-1,1.73-1.15-.66a1,1,0,0,0-1.19.15,6.05,6.05,0,0,1-2.38,1.39,1,1,0,0,0-.71,1V20H11V18.7a1,1,0,0,0-.71-1,6.05,6.05,0,0,1-2.38-1.39,1,1,0,0,0-.69-.28,1,1,0,0,0-.5.13l-1.14.67-1-1.73,1.12-.65a1,1,0,0,0,.47-1.11A5.92,5.92,0,0,1,6,12a5.86,5.86,0,0,1,.17-1.38A1,1,0,0,0,5.7,9.51L4.58,8.86l1-1.73,1.15.67a1,1,0,0,0,1.19-.15,6.05,6.05,0,0,1,2.38-1.39,1,1,0,0,0,.71-1V4h2V5.3a1,1,0,0,0,.71,1,6.05,6.05,0,0,1,2.38,1.39,1,1,0,0,0,1.19.15l1.14-.66,1,1.73-1.12.64A1,1,0,0,0,17.83,10.62Z">
-                    </path>
+                    <path class="cls-1" d="M12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Zm8.42-.6-.5-.29a7.74,7.74,0,0,0,0-2.22l.5-.29a2,2,0,0,0,.73-2.74l-1-1.72a2.06,2.06,0,0,0-2.73-.74l-.53.31A8.07,8.07,0,0,0,15,4.6V4a2,2,0,0,0-2-2H11A2,2,0,0,0,9,4v.6A8.07,8.07,0,0,0,7.1,5.71L6.57,5.4a2.07,2.07,0,0,0-2.73.73l-1,1.73a2,2,0,0,0,.73,2.74l.5.29a7.74,7.74,0,0,0,0,2.22l-.5.29a2,2,0,0,0-.73,2.74l1,1.73a2.05,2.05,0,0,0,2.72.73l.53-.31A8.07,8.07,0,0,0,9,19.4V20a2,2,0,0,0,2,2h2a2,2,0,0,0,2-2v-.6a8.07,8.07,0,0,0,1.9-1.11l.53.31a2.07,2.07,0,0,0,2.73-.73l1-1.73A2,2,0,0,0,20.42,13.4Zm-2.59-2.78A5.86,5.86,0,0,1,18,12a5.92,5.92,0,0,1-.17,1.38,1,1,0,0,0,.47,1.11l1.12.64-1,1.73-1.15-.66a1,1,0,0,0-1.19.15,6.05,6.05,0,0,1-2.38,1.39,1,1,0,0,0-.71,1V20H11V18.7a1,1,0,0,0-.71-1,6.05,6.05,0,0,1-2.38-1.39,1,1,0,0,0-.69-.28,1,1,0,0,0-.5.13l-1.14.67-1-1.73,1.12-.65a1,1,0,0,0,.47-1.11A5.92,5.92,0,0,1,6,12a5.86,5.86,0,0,1,.17-1.38A1,1,0,0,0,5.7,9.51L4.58,8.86l1-1.73,1.15.67a1,1,0,0,0,1.19-.15,6.05,6.05,0,0,1,2.38-1.39,1,1,0,0,0,.71-1V4h2V5.3a1,1,0,0,0,.71,1,6.05,6.05,0,0,1,2.38,1.39,1,1,0,0,0,1.19.15l1.14-.66,1,1.73-1.12.64A1,1,0,0,0,17.83,10.62Z"></path>
                 </svg>
-                <span>Настройки</span>
+                <span data-i18n="settings">Настройки</span>
             </button>
         </div>
     </aside>
-
-
 
     <aside id="sidebar" class="sidebar">
         <h3>{{ doc.document_code }}</h3>
@@ -154,78 +129,71 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" height="32" width="32">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21">
-                    </path>
+                        d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"></path>
                 </svg>
                 <span class="text">{{ doc.bergan_tashkilot }}</span>
             </li>
             <li class="item">
                 <div class="title">
-                    <p>Ким томонидан имзоланган</p>
+                    <p data-i18n="signed_by">Ким томонидан имзоланган</p>
                 </div>
                 <div class="texts">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" height="22" width="22">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z">
-                        </path>
+                            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                     <span class="text">{{ doc.imzolagan }}</span>
                 </div>
             </li>
             <li class="item">
                 <div class="title">
-                    <p>Ҳужжат ижрочиси</p>
+                    <p data-i18n="executor">Ҳужжат ижрочиси</p>
                 </div>
                 <div class="texts">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" height="22" width="22">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z">
-                        </path>
+                            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                     <span class="text">{{ doc.ijrochi }}</span>
                 </div>
             </li>
             <li class="item">
                 <div class="title">
-                    <p>ЭРИ берган ташкилот</p>
+                    <p data-i18n="eri_issuer">ЭРИ берган ташкилот</p>
                 </div>
                 <div class="texts">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" height="22" width="22">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21">
-                        </path>
+                            d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"></path>
                     </svg>
                     <span class="text">{{ doc.eri_bergan }}</span>
                 </div>
             </li>
             <li class="item">
                 <div class="title">
-                    <p>ЭРИ амал қилиш муддати</p>
+                    <p data-i18n="eri_validity">ЭРИ амал қилиш муддати</p>
                 </div>
                 <div class="texts">
                     <svg viewBox="0 0 24 24" height="22" width="22">
                         <path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-width="2"
                             stroke="currentColor"
-                            d="M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2zM16 2v4M8 2v4M3 10h18">
-                        </path>
+                            d="M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2zM16 2v4M8 2v4M3 10h18"></path>
                     </svg>
                     <span class="text">{{ doc.eri_amal_qilish_b }} - {{ doc.eri_tugash }}</span>
                 </div>
             </li>
             <li class="item">
                 <div class="title">
-                    <p>Имзоланган ҳужжат</p>
+                    <p data-i18n="signed_doc">Имзоланган ҳужжат</p>
                 </div>
                 <div class="texts">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                         viewBox="0 0 16 16">
-                        <path
-                            d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
-                        <path
-                            d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                        <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                        <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
                     </svg>
                     <span class="text">{{ doc.imzolagan_h }}</span>
                 </div>
@@ -234,137 +202,98 @@
     </aside>
 
     <aside id="zoom-tools" class="zoom-tools">
-
         <div class="mini-button" class="clear-all"></div>
         <div class="menu-buttons-con">
             <button>
-                <p id="zoom-percent" style="margin-left: 20px; width: 180px;">100%</p> <svg class="l"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" height="18" width="18">
+                <p id="zoom-percent" style="margin-left: 20px; width: 180px;">100%</p>
+                <svg class="l" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" height="18" width="18">
                     <path class="cls-1" d="M9,3.5l-3,3-3-3-1,1,4,4,4-4Z"></path>
                 </svg>
             </button>
             <button id="zoom-out">
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-                        <path class="cls-1"
-                            d="M7,11H17v2H7Zm15,1A10,10,0,1,1,12,2,10,10,0,0,1,22,12Zm-2,0a8,8,0,1,0-8,8A8,8,0,0,0,20,12Z">
-                        </path>
+                        <path class="cls-1" d="M7,11H17v2H7Zm15,1A10,10,0,1,1,12,2,10,10,0,0,1,22,12Zm-2,0a8,8,0,1,0-8,8A8,8,0,0,0,20,12Z"></path>
                     </svg>
                 </span>
-                <span>
-                    Уменьшить
-                </span>
+                <span data-i18n="zoom_out">Уменьшить</span>
             </button>
             <button id="zoom-in">
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-                        <path class="cls-1"
-                            d="M13,11h4v2H13v4H11V13H7V11h4V7h2Zm9,1A10,10,0,1,1,12,2,10,10,0,0,1,22,12Zm-2,0a8,8,0,1,0-8,8A8,8,0,0,0,20,12Z">
-                        </path>
+                        <path class="cls-1" d="M13,11h4v2H13v4H11V13H7V11h4V7h2Zm9,1A10,10,0,1,1,12,2,10,10,0,0,1,22,12Zm-2,0a8,8,0,1,0-8,8A8,8,0,0,0,20,12Z"></path>
                     </svg>
                 </span>
-                <span>
-                    Увеличить
-
-                </span>
+                <span data-i18n="zoom_in">Увеличить</span>
             </button>
-            <button id="clear-all" class="clear-all">
+            <button class="clear-all">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-                    <path class="cls-1"
-                        d="M5.93,4.36,9.17,7.6a.39.39,0,0,1,0,.56l-1,1a.39.39,0,0,1-.56,0L4.36,5.93,2.68,7.6A.4.4,0,0,1,2,7.32V2.4A.4.4,0,0,1,2.4,2H7.32a.4.4,0,0,1,.28.68ZM7.6,14.83,4.36,18.07,2.68,16.4a.4.4,0,0,0-.68.28V21.6a.4.4,0,0,0,.4.4H7.32a.4.4,0,0,0,.28-.68L5.93,19.64,9.17,16.4a.39.39,0,0,0,0-.56l-1-1A.39.39,0,0,0,7.6,14.83ZM16.4,2.68l1.67,1.68L14.83,7.6a.39.39,0,0,0,0,.56l1,1a.39.39,0,0,0,.56,0l3.24-3.24L21.32,7.6A.4.4,0,0,0,22,7.32V2.4a.4.4,0,0,0-.4-.4H16.68A.4.4,0,0,0,16.4,2.68Zm-.56,12.15-1,1a.39.39,0,0,0,0,.56l3.24,3.24L16.4,21.32a.4.4,0,0,0,.28.68H21.6a.4.4,0,0,0,.4-.4V16.68a.4.4,0,0,0-.68-.28l-1.68,1.67L16.4,14.83A.39.39,0,0,0,15.84,14.83Z">
-                    </path>
-                </svg><span class="flyout-item-label">Уместить по ширине</span>
-
-            </button>
-            <button id="clear-all" class="clear-all">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-
-                    <path class="cls-1"
-                        d="M9.76,13.06l-5,5L3.07,16.4a.4.4,0,0,0-.68.28V21.6a.4.4,0,0,0,.4.4H7.71A.4.4,0,0,0,8,21.32L6.32,19.64l5-5a.4.4,0,0,0,0-.57l-1-1A.39.39,0,0,0,9.76,13.06Zm7-10.38,1.67,1.68-5,5a.4.4,0,0,0,0,.57l1,1A.4.4,0,0,0,15,11l5-5L21.71,7.6a.4.4,0,0,0,.68-.28V2.4A.4.4,0,0,0,22,2H17.07A.4.4,0,0,0,16.79,2.68Z">
-                    </path>
+                    <path class="cls-1" d="M5.93,4.36,9.17,7.6a.39.39,0,0,1,0,.56l-1,1a.39.39,0,0,1-.56,0L4.36,5.93,2.68,7.6A.4.4,0,0,1,2,7.32V2.4A.4.4,0,0,1,2.4,2H7.32a.4.4,0,0,1,.28.68ZM7.6,14.83,4.36,18.07,2.68,16.4a.4.4,0,0,0-.68.28V21.6a.4.4,0,0,0,.4.4H7.32a.4.4,0,0,0,.28-.68L5.93,19.64,9.17,16.4a.39.39,0,0,0,0-.56l-1-1A.39.39,0,0,0,7.6,14.83ZM16.4,2.68l1.67,1.68L14.83,7.6a.39.39,0,0,0,0,.56l1,1a.39.39,0,0,0,.56,0l3.24-3.24L21.32,7.6A.4.4,0,0,0,22,7.32V2.4a.4.4,0,0,0-.4-.4H16.68A.4.4,0,0,0,16.4,2.68Zm-.56,12.15-1,1a.39.39,0,0,0,0,.56l3.24,3.24L16.4,21.32a.4.4,0,0,0,.28.68H21.6a.4.4,0,0,0,.4-.4V16.68a.4.4,0,0,0-.68-.28l-1.68,1.67L16.4,14.83A.39.39,0,0,0,15.84,14.83Z"></path>
                 </svg>
-                <span class="flyout-item-label">Уместить по ширине</span>
-
+                <span class="flyout-item-label" data-i18n="fit_width">Уместить по ширине</span>
             </button>
-            <button id="clear-all" class="clear-all">
+            <button class="clear-all">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-
-                    <path class="cls-1"
-                        d="M3.05,18.84H6.21v-2.1H4.11V14.63H2v3.16A1,1,0,0,0,3.05,18.84ZM18.84,3.05a1,1,0,0,0-1.05-1H14.63V4.11h2.11v2.1h2.1ZM4.11,4.11h2.1V2H3.05a1,1,0,0,0-1,1V6.21H4.11ZM2,8.32H4.11v4.21H2Zm14.74,0h2.1v3.15h-2.1ZM22,21l-1.81-1.82a3.53,3.53,0,0,0,.59-1.95,3.64,3.64,0,1,0-1.65,3L21,22Zm-6.9-3.77a2.08,2.08,0,1,1,2.08,2.08A2.08,2.08,0,0,1,15.1,17.18ZM8.32,2h4.21V4.11H8.32Zm0,14.74h3.15v2.1H8.32Z">
-                    </path>
+                    <path class="cls-1" d="M9.76,13.06l-5,5L3.07,16.4a.4.4,0,0,0-.68.28V21.6a.4.4,0,0,0,.4.4H7.71A.4.4,0,0,0,8,21.32L6.32,19.64l5-5a.4.4,0,0,0,0-.57l-1-1A.39.39,0,0,0,9.76,13.06Zm7-10.38,1.67,1.68-5,5a.4.4,0,0,0,0,.57l1,1A.4.4,0,0,0,15,11l5-5L21.71,7.6a.4.4,0,0,0,.68-.28V2.4A.4.4,0,0,0,22,2H17.07A.4.4,0,0,0,16.79,2.68Z"></path>
                 </svg>
-                <span class="flyout-item-label">Уместить по ширине</span>
+                <span class="flyout-item-label" data-i18n="fit_width">Уместить по ширине</span>
+            </button>
+            <button class="clear-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
+                    <path class="cls-1" d="M3.05,18.84H6.21v-2.1H4.11V14.63H2v3.16A1,1,0,0,0,3.05,18.84ZM18.84,3.05a1,1,0,0,0-1.05-1H14.63V4.11h2.11v2.1h2.1ZM4.11,4.11h2.1V2H3.05a1,1,0,0,0-1,1V6.21H4.11ZM2,8.32H4.11v4.21H2Zm14.74,0h2.1v3.15h-2.1ZM22,21l-1.81-1.82a3.53,3.53,0,0,0,.59-1.95,3.64,3.64,0,1,0-1.65,3L21,22Zm-6.9-3.77a2.08,2.08,0,1,1,2.08,2.08A2.08,2.08,0,0,1,15.1,17.18ZM8.32,2h4.21V4.11H8.32Zm0,14.74h3.15v2.1H8.32Z"></path>
+                </svg>
+                <span class="flyout-item-label" data-i18n="fit_width">Уместить по ширине</span>
             </button>
         </div>
     </aside>
 
     <aside id="page-control" class="page-control">
-
         <div class="mini-button" class="clear-all"></div>
         <div class="menu-buttons-con">
-            <label><b>Переход страниц</b></label>
+            <label><b data-i18n="page_navigation">Переход страниц</b></label>
             <button>
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-                        <path class="cls-1"
-                            d="M20,2V9a2,2,0,0,1-2,2H6A2,2,0,0,1,4,9V2H6V9H18V2Zm0,17.94s0,0,0,.06v2H18V21H13a1,1,0,0,1-1-1V15H6v7H4V15a2,2,0,0,1,2-2h7.06l.26.05.09,0a1.17,1.17,0,0,1,.3.19l6,6a1.17,1.17,0,0,1,.19.3.36.36,0,0,1,0,.09A2,2,0,0,1,20,19.94Z">
-                        </path>
+                        <path class="cls-1" d="M20,2V9a2,2,0,0,1-2,2H6A2,2,0,0,1,4,9V2H6V9H18V2Zm0,17.94s0,0,0,.06v2H18V21H13a1,1,0,0,1-1-1V15H6v7H4V15a2,2,0,0,1,2-2h7.06l.26.05.09,0a1.17,1.17,0,0,1,.3.19l6,6a1.17,1.17,0,0,1,.19.3.36.36,0,0,1,0,.09A2,2,0,0,1,20,19.94Z"></path>
                     </svg>
                 </span>
-                <span>
-                    Непрерывный
-                </span>
+                <span data-i18n="continuous">Непрерывный</span>
             </button>
             <button>
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-                        <path class="cls-1"
-                            d="M17,17V7.83s0,0,0,0a1.7,1.7,0,0,0,0-.22l0-.07a.82.82,0,0,0-.16-.25l-5-5a.82.82,0,0,0-.25-.16l-.08,0-.21,0H5.34A1.67,1.67,0,0,0,3.67,3.67V17a1.67,1.67,0,0,0,1.67,1.67h10A1.67,1.67,0,0,0,17,17ZM5.67,4h4.66V7.83a.84.84,0,0,0,.84.83H15v8H5.67ZM20.33,9.51V20.33A1.67,1.67,0,0,1,18.66,22H11.17V20h7.16V9.51Z">
-                        </path>
+                        <path class="cls-1" d="M17,17V7.83s0,0,0,0a1.7,1.7,0,0,0,0-.22l0-.07a.82.82,0,0,0-.16-.25l-5-5a.82.82,0,0,0-.25-.16l-.08,0-.21,0H5.34A1.67,1.67,0,0,0,3.67,3.67V17a1.67,1.67,0,0,0,1.67,1.67h10A1.67,1.67,0,0,0,17,17ZM5.67,4h4.66V7.83a.84.84,0,0,0,.84.83H15v8H5.67ZM20.33,9.51V20.33A1.67,1.67,0,0,1,18.66,22H11.17V20h7.16V9.51Z"></path>
                     </svg>
                 </span>
-                <span>
-                    Страница за страницей
-                </span>
+                <span data-i18n="page_by_page">Страница за страницей</span>
             </button>
             <div style="height: 0; border-bottom: 0.5px solid #dedfdf;"></div>
-            <label style="margin-top: 10px;"><b>Повернуть</b></label>
+            <label style="margin-top: 10px;"><b data-i18n="rotate">Повернуть</b></label>
             <button id="rotate-cw">
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
-                        <path class="cls-1"
-                            d="M22,7.83,18.67,12,15.33,7.83h2.43a5,5,0,0,0-4.93-4.16V2a6.64,6.64,0,0,1,6.61,5.83ZM14,12.2s0,0,0,.05V20.5A1.5,1.5,0,0,1,12.5,22h-9A1.5,1.5,0,0,1,2,20.5V8.5A1.5,1.5,0,0,1,3.5,7H8.8a.65.65,0,0,1,.19,0l.07,0a.86.86,0,0,1,.22.15l4.5,4.5a.66.66,0,0,1,.15.22s0,.05,0,.07A.65.65,0,0,1,14,12.2ZM12,20V13H8.75A.76.76,0,0,1,8,12.25V9H4V20Z">
-                        </path>
+                        <path class="cls-1" d="M22,7.83,18.67,12,15.33,7.83h2.43a5,5,0,0,0-4.93-4.16V2a6.64,6.64,0,0,1,6.61,5.83ZM14,12.2s0,0,0,.05V20.5A1.5,1.5,0,0,1,12.5,22h-9A1.5,1.5,0,0,1,2,20.5V8.5A1.5,1.5,0,0,1,3.5,7H8.8a.65.65,0,0,1,.19,0l.07,0a.86.86,0,0,1,.22.15l4.5,4.5a.66.66,0,0,1,.15.22s0,.05,0,.07A.65.65,0,0,1,14,12.2ZM12,20V13H8.75A.76.76,0,0,1,8,12.25V9H4V20Z"></path>
                     </svg>
                 </span>
-                <span>
-                    Непрерывный
-                </span>
+                <span data-i18n="rotate_cw">По часовой</span> <!-- agar kerak bo'lsa qo'shimcha -->
             </button>
             <button id="rotate-ccw">
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-                        <path class="cls-1"
-                            d="M22.39,11.17H20.72a5,5,0,0,0-4.17-4.93V8.67L12.39,5.33,16.55,2V4.56a6.66,6.66,0,0,1,5.84,6.61Zm-8,1s0,0,0,.05V20.5a1.5,1.5,0,0,1-1.5,1.5h-9a1.5,1.5,0,0,1-1.5-1.5V8.5A1.5,1.5,0,0,1,3.89,7H9.18a.71.71,0,0,1,.2,0l.07,0a1.07,1.07,0,0,1,.22.15l4.5,4.5a.86.86,0,0,1,.15.22.19.19,0,0,0,0,.07A1.29,1.29,0,0,1,14.38,12.2Zm-2,7.8V13H9.14a.75.75,0,0,1-.75-.75V9h-4V20Z">
-                        </path>
+                        <path class="cls-1" d="M22.39,11.17H20.72a5,5,0,0,0-4.17-4.93V8.67L12.39,5.33,16.55,2V4.56a6.66,6.66,0,0,1,5.84,6.61Zm-8,1s0,0,0,.05V20.5a1.5,1.5,0,0,1-1.5,1.5h-9a1.5,1.5,0,0,1-1.5-1.5V8.5A1.5,1.5,0,0,1,3.89,7H9.18a.71.71,0,0,1,.2,0l.07,0a1.07,1.07,0,0,1,.22.15l4.5,4.5a.86.86,0,0,1,.15.22.19.19,0,0,0,0,.07A1.29,1.29,0,0,1,14.38,12.2Zm-2,7.8V13H9.14a.75.75,0,0,1-.75-.75V9h-4V20Z"></path>
                     </svg>
                 </span>
-                <span>
-                    Непрерывный
-                </span>
+                <span data-i18n="rotate_ccw">Против часовой</span>
             </button>
             <div style="height: 0; border-bottom: 0.5px solid #dedfdf;"></div>
             <button id="fullscreen-btn-2" style="margin-top: 10px;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24">
-                    <path class="cls-1"
-                        d="M4.22,4.22H9.78V2H2V9.78H4.22ZM9.78,19.78H4.22V14.22H2V22H9.78ZM22,14.22H19.78v5.56H14.22V22H22ZM19.78,9.78H22V2H14.22V4.22h5.56Z">
-                    </path>
+                    <path class="cls-1" d="M4.22,4.22H9.78V2H2V9.78H4.22ZM9.78,19.78H4.22V14.22H2V22H9.78ZM22,14.22H19.78v5.56H14.22V22H22ZM19.78,9.78H22V2H14.22V4.22h5.56Z"></path>
                 </svg>
-                <span>Полный экран</span>
+                <span data-i18n="full_screen">Полный экран</span>
             </button>
         </div>
     </aside>
-
 
     <div class="main">
         <div class="control-panel">
@@ -376,27 +305,22 @@
                 </svg>
             </button>
             <div class="vr"></div>
+            <!-- boshqa tugmalar ikonka bilan, matn yo'q -->
             <button>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-                    <path class="cls-1"
-                        d="M19.78,2H4.22A2.23,2.23,0,0,0,2,4.22V19.78A2.23,2.23,0,0,0,4.22,22H19.78A2.23,2.23,0,0,0,22,19.78V4.22A2.23,2.23,0,0,0,19.78,2ZM7.56,19.78H4.22V4.22H7.56Zm2.22,0V4.22h10V19.78Z">
-                    </path>
+                    <path class="cls-1" d="M19.78,2H4.22A2.23,2.23,0,0,0,2,4.22V19.78A2.23,2.23,0,0,0,4.22,22H19.78A2.23,2.23,0,0,0,22,19.78V4.22A2.23,2.23,0,0,0,19.78,2ZM7.56,19.78H4.22V4.22H7.56Zm2.22,0V4.22h10V19.78Z"></path>
                 </svg>
             </button>
             <button id="pg-settings">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="22" width="22">
-                    <path class="cls-1"
-                        d="M10.75,10.43v.7a4,4,0,0,0-.84.5l-.61-.36a.45.45,0,0,0-.61.16L7.82,13a.44.44,0,0,0,.17.6H8l.6.35a4.18,4.18,0,0,0,0,1L8,15.3a.44.44,0,0,0-.17.58l.89,1.53a.45.45,0,0,0,.61.16l.61-.36a4,4,0,0,0,.84.5v.71a.46.46,0,0,0,.45.44H13a.44.44,0,0,0,.44-.44v-.71a3.39,3.39,0,0,0,.84-.5l.62.36a.45.45,0,0,0,.61-.16l.89-1.53a.45.45,0,0,0-.17-.61l-.6-.35a4.18,4.18,0,0,0,0-1l.6-.35a.44.44,0,0,0,.17-.6h0l-.89-1.54a.45.45,0,0,0-.61-.16l-.62.36a3.39,3.39,0,0,0-.84-.5v-.7A.44.44,0,0,0,13,10H11.2A.45.45,0,0,0,10.75,10.43Zm1.35,2.22a1.78,1.78,0,1,1-1.77,1.79h0a1.78,1.78,0,0,1,1.75-1.78Zm7.84-4V8.6a.84.84,0,0,0-.2-.29l-6-6a1.15,1.15,0,0,0-.29-.2h-.1A.79.79,0,0,0,13.06,2H6A2,2,0,0,0,4,4V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8.94A1,1,0,0,0,19.94,8.69ZM18,20H6V4h6l6,6Z">
-                    </path>
+                    <path class="cls-1" d="M10.75,10.43v.7a4,4,0,0,0-.84.5l-.61-.36a.45.45,0,0,0-.61.16L7.82,13a.44.44,0,0,0,.17.6H8l.6.35a4.18,4.18,0,0,0,0,1L8,15.3a.44.44,0,0,0-.17.58l.89,1.53a.45.45,0,0,0,.61.16l.61-.36a4,4,0,0,0,.84.5v.71a.46.46,0,0,0,.45.44H13a.44.44,0,0,0,.44-.44v-.71a3.39,3.39,0,0,0,.84-.5l.62.36a.45.45,0,0,0,.61-.16l.89-1.53a.45.45,0,0,0-.17-.61l-.6-.35a4.18,4.18,0,0,0,0-1l.6-.35a.44.44,0,0,0,.17-.6h0l-.89-1.54a.45.45,0,0,0-.61-.16l-.62.36a3.39,3.39,0,0,0-.84-.5v-.7A.44.44,0,0,0,13,10H11.2A.45.45,0,0,0,10.75,10.43Zm1.35,2.22a1.78,1.78,0,1,1-1.77,1.79h0a1.78,1.78,0,0,1,1.75-1.78Zm7.84-4V8.6a.84.84,0,0,0-.2-.29l-6-6a1.15,1.15,0,0,0-.29-.2h-.1A.79.79,0,0,0,13.06,2H6A2,2,0,0,0,4,4V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8.94A1,1,0,0,0,19.94,8.69ZM18,20H6V4h6l6,6Z"></path>
                 </svg>
             </button>
             <div class="vr"></div>
             <button id="open-zoom-tools">
                 <svg viewBox="0 0 24 24" fill="" xmlns="http://www.w3.org/2000/svg" height="22" width="22">
                     <path class="cls-1" d="M11 6H9V9H6V11H9V14H11V11H14V9H11V6Z"></path>
-                    <path class="cls-1"
-                        d="M10 2C5.589 2 2 5.589 2 10C2 14.411 5.589 18 10 18C11.846 18 13.543 17.365 14.897 16.312L19.293 20.708L20.707 19.294L16.311 14.898C17.365 13.543 18 11.846 18 10C18 5.589 14.411 2 10 2ZM10 16C6.691 16 4 13.309 4 10C4 6.691 6.691 4 10 4C13.309 4 16 6.691 16 10C16 13.309 13.309 16 10 16Z">
-                    </path>
+                    <path class="cls-1" d="M10 2C5.589 2 2 5.589 2 10C2 14.411 5.589 18 10 18C11.846 18 13.543 17.365 14.897 16.312L19.293 20.708L20.707 19.294L16.311 14.898C17.365 13.543 18 11.846 18 10C18 5.589 14.411 2 10 2ZM10 16C6.691 16 4 13.309 4 10C4 6.691 6.691 4 10 4C13.309 4 16 6.691 16 10C16 13.309 13.309 16 10 16Z"></path>
                 </svg>
             </button>
             <div class="vr"></div>
@@ -425,219 +349,15 @@
 
         <div class="doc-con">
             {% if pdf_preview %}
-            <img id="pdf-img" src="{{ pdf_preview }}" alt="PDF Preview">
+                <img id="pdf-img" src="{{ pdf_preview }}" alt="PDF Preview">
             {% else %}
-            <div class="no-preview">
-                <p>PDF rasm mavjud emas</p>
-            </div>
+                <div class="no-preview">
+                    <p data-i18n="no_preview">PDF rasm mavjud emas</p>
+                </div>
             {% endif %}
         </div>
     </div>
 
-    <script>
-        const menuBtn = document.getElementById('menu-btn');
-        menuBtn.onclick = () => {
-            document.body.classList.remove('pg');
-
-            document.body.classList.remove('save-as-open');
-            document.body.classList.remove('others-open');
-            document.body.classList.remove('zp');
-            document.body.classList.toggle('sidebar-open');
-        };
-
-        const othersBtn = document.getElementById('other-btn');
-        othersBtn.onclick = () => {
-            document.body.classList.remove('pg');
-
-            document.body.classList.remove('sidebar-open');
-            document.body.classList.remove('others-open');
-            document.body.classList.remove('save-as-open');
-            document.body.classList.remove('zp');
-            document.body.classList.toggle('others-open');
-        };
-        const openZoomTools = document.getElementById('open-zoom-tools');
-
-        openZoomTools.onclick = () => {
-            document.body.classList.remove('pg');
-            document.body.classList.remove('sidebar-open');
-            document.body.classList.remove('others-open');
-            document.body.classList.remove('save-as-open');
-            document.body.classList.toggle('zp');
-        };
-        const pgSettings = document.getElementById('pg-settings');
-
-        pgSettings.onclick = () => {
-            document.body.classList.remove('sidebar-open');
-            document.body.classList.remove('others-open');
-            document.body.classList.remove('save-as-open');
-            document.body.classList.toggle('pg');
-            document.body.classList.remove('zp');
-
-        };
-        const cleaner = document.querySelectorAll('.clear-all');
-
-        cleaner.forEach(btn => {
-            btn.onclick = () => {
-                document.body.classList.remove('pg');
-                document.body.classList.remove('others-open');
-                document.body.classList.remove('save-as-open');
-                document.body.classList.remove('zp');
-            };
-        });
-
-
-
-        const saveAsBtn = document.getElementById('save-as-btn');
-        if (saveAsBtn) {
-            saveAsBtn.onclick = () => {
-                document.body.classList.remove('others-open');
-                document.body.classList.toggle('save-as-open');
-            };
-        }
-
-        const closeSaveBtn = document.getElementById('close-save-btn');
-        if (closeSaveBtn) {
-            closeSaveBtn.onclick = () => {
-                document.body.classList.remove('save-as-open');
-            };
-        }
-
-        const fsBtn = document.getElementById('fullscreen-btn');
-        fsBtn.onclick = () => {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch((err) => {
-                    alert(`Fullscreen rejimga o'tilmadi: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        };
-
-        const fsBtn2 = document.getElementById('fullscreen-btn-2');
-        fsBtn2.onclick = () => {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch((err) => {
-                    alert(`Fullscreen rejimga o'tilmadi: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        };
-
-        {% if pdf_preview %}
-        const img = document.getElementById('pdf-img');
-        let scale = 1;
-        let rotation = 0;
-        let translateX = 0;
-        let translateY = 0;
-        let isDragging = false;
-        let startX = 0;
-        let startY = 0;
-        let rafId = null;
-
-        function applyTransform() {
-            img.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotation}deg)`;
-            rafId = null;
-        }
-
-        function requestUpdate() {
-            if (rafId) return;
-            rafId = requestAnimationFrame(applyTransform);
-        }
-        const zoomPercentElement = document.getElementById('zoom-percent');
-
-        function updateZoomPercent() {
-            const percent = Math.round(scale * 100);
-            zoomPercentElement.textContent = `${percent}%`;
-        }
-
-        updateZoomPercent();
-        document.getElementById('zoom-in').onclick = () => {
-            scale += 0.1;
-            requestUpdate();
-        };
-
-        document.getElementById('zoom-out').onclick = () => {
-            scale = Math.max(0.1, scale - 0.1);
-            requestUpdate();
-        };
-
-        document.getElementById('rotate-cw').onclick = () => {
-            rotation += 90;
-            requestUpdate();
-        };
-
-        document.getElementById('rotate-ccw').onclick = () => {
-            rotation -= 90;
-            requestUpdate();
-        };
-
-        img.addEventListener('dragstart', e => e.preventDefault());
-
-        img.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.clientX - translateX;
-            startY = e.clientY - translateY;
-            img.style.cursor = 'grabbing';
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            translateX = e.clientX - startX;
-            translateY = e.clientY - startY;
-            requestUpdate();
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            img.style.cursor = 'grab';
-        });
-
-        document.getElementById('save-file-btn').onclick = async () => {
-            const nameInput = document.querySelector('.text-input');
-            const type = document.getElementById('file-select').value;
-
-            let fileName = nameInput.value.trim();
-            if (!fileName) {
-                alert("Имя файла не указано");
-                return;
-            }
-
-            let fileUrl = "";
-            let ext = "";
-
-            if (type === "pdf") {
-                fileUrl = "{{ doc.file.url }}";
-                ext = ".pdf";
-            } else if (type === "jpg") {
-                fileUrl = "{{ pdf_preview }}";
-                ext = ".jpg";
-            }
-
-            try {
-                const response = await fetch(fileUrl);
-                const blob = await response.blob();
-
-                const blobUrl = URL.createObjectURL(blob);
-
-                const a = document.createElement("a");
-                a.href = blobUrl;
-                a.download = fileName + ext;
-
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-
-                URL.revokeObjectURL(blobUrl);
-            } catch (e) {
-                alert("Faylni yuklab bo‘lmadi");
-                console.error(e);
-            }
-        };
-
-        {% endif %}
-    </script>
-
+    <script src="{% static 'documents/scripts/view.js' %}"></script>
 </body>
-
 </html>

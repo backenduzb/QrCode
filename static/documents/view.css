@@ -631,3 +631,9 @@ body.others-open .others {
     margin-left: 20px;
     width: 180px;
 }
+
+body.sidebar-open #sidebar { transform: translateX(0); }
+body.others-open #others { transform: translateX(0); }
+body.save-as-open #save-as { transform: translateX(0); }
+body.zoom-open #zoom-tools { transform: translateX(0); }
+body.page-open #page-control { transform: translateX(0); }
