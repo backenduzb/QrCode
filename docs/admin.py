@@ -44,7 +44,7 @@ class DocumentAdmin(admin.ModelAdmin):
         url = request.build_absolute_uri(
             reverse('doc-access', args=[obj.id])
         )
-
+        url.replace("http","https")
         qr_img = qrcode.make(url)
         qr_buf = BytesIO()
         qr_img.save(qr_buf, format='PNG')
