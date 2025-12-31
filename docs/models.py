@@ -6,7 +6,7 @@ class Document(models.Model):
     qr = models.ImageField(upload_to='qr/', blank=True)
     pdf_image = models.ImageField(upload_to='pdf_preview/', blank=True) 
     created = models.DateTimeField(auto_now_add=True)
-    document_code = models.CharField(max_length=10, null=False, blank=True)
+    document_code = models.CharField(max_length=10, null=False, blank=False)
     ducument_son = models.IntegerField(null=True, blank=True)
     ariza_berilgan = models.DateField(null=True, blank=True)
     bergan_tashkilot = models.CharField(max_length=1024, null=True, blank=True)

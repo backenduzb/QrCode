@@ -4,7 +4,7 @@ from .forms import CaptchaForm
 from django.conf import settings
 
 def access_doc(request, pk):
-    doc = get_object_or_404(Document, pk=pk)
+    doc = get_object_or_404(Document, document_code=pk)
     error = None
 
     session_key = f'captcha_passed_{pk}'
