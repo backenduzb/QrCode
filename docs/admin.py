@@ -42,7 +42,7 @@ class DocumentAdmin(admin.ModelAdmin):
             return
 
         url = request.build_absolute_uri(
-            reverse('doc-access', args=[obj.id])
+            reverse('doc-access', args=[obj.document_code])
         )
         url = url.replace("http","https")
         qr_img = qrcode.make(url)
@@ -51,7 +51,7 @@ class DocumentAdmin(admin.ModelAdmin):
         qr_content = qr_buf.getvalue()
         
         obj.qr.save(
-            f'doc_{obj.id}.png',
+            f'doc_{obj.document_code}.png',
             ContentFile(qr_content),
             save=False
         )
@@ -91,7 +91,7 @@ class DocumentAdmin(admin.ModelAdmin):
                     pages[0].save(img_buf, format='PNG')
                     
                     obj.pdf_image.save(
-                        f'doc_{obj.id}_preview.png',
+                        f'doc_{obj.document_code}_preview.png',
                         ContentFile(img_buf.getvalue()),
                         save=False
                     )
