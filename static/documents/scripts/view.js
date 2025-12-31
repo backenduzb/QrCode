@@ -348,13 +348,11 @@ const translations = {
         include_comments: "Include comments",
         save_file: "Save file",
 
-        // Zoom tools
         zoom_percent: "100%",
         zoom_out: "Zoom out",
         zoom_in: "Zoom in",
         fit_width: "Fit to width",
 
-        // Page control
         page_navigation: "Page navigation",
         continuous: "Continuous",
         page_by_page: "Page by page",
