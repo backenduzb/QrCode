@@ -24,14 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8pdy65v0+a@n8a=8@13*!56c=z-nfvsyd=*h5c7xqpesb=kk%i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
-    ALLOWED_HOSTS = ['*']
-else:
     ALLOWED_HOSTS = ['fbd-production.up.railway.app', 'check-ijro-uz.fun']
+else:
+    ALLOWED_HOSTS = ['*']
 
-if not DEBUG:
+if DEBUG:
     CSRF_TRUSTED_ORIGINS = [
         "https://fbd-production.up.railway.app",
         "https://check-ijro-uz.fun",
