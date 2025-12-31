@@ -27,14 +27,14 @@ SECRET_KEY = 'django-insecure-8pdy65v0+a@n8a=8@13*!56c=z-nfvsyd=*h5c7xqpesb=kk%i
 DEBUG = True
 
 if DEBUG:
-    ALLOWED_HOSTS = ['fbd-production.up.railway.app', 'check-ijro-uz.fun']
+    ALLOWED_HOSTS = ['fbd-production.up.railway.app', 'www.check-ijro-uz.fun']
 else:
     ALLOWED_HOSTS = ['*']
 
 if DEBUG:
     CSRF_TRUSTED_ORIGINS = [
         "https://fbd-production.up.railway.app",
-        "https://check-ijro-uz.fun",
+        "https://www.check-ijro-uz.fun"
     ]
 # Application definition
 
