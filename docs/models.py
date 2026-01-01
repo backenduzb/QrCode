@@ -9,7 +9,7 @@ class Document(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     document_code = models.CharField(
-        max_length=10,
+        max_length=256,
         unique=True
     )
 
