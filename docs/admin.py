@@ -92,9 +92,9 @@ class DocumentAdmin(admin.ModelAdmin):
 
                 rect = fitz.Rect(
                     (w - qr_size) / 2,
-                    h - qr_size - 5,
+                    h - qr_size - 40,
                     (w + qr_size) / 2,
-                    h - 40
+                    h - 5
                 )
 
                 page.insert_image(rect, stream=qr_content)
