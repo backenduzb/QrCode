@@ -27,7 +27,7 @@ class DocumentAdmin(admin.ModelAdmin):
                 '<img src="{}" style="max-width:200px;border:1px solid #ccc;">',
                 obj.qr.url
             )
-        return "QR yo‘q"
+        return "QR yo'q"
 
     def pdf_preview(self, obj):
         if obj.pdf_image:
@@ -35,7 +35,7 @@ class DocumentAdmin(admin.ModelAdmin):
                 '<img src="{}" style="max-width:200px;border:1px solid #ccc;">',
                 obj.pdf_image.url
             )
-        return "PDF rasm yo‘q"
+        return "PDF rasm yo'q"
 
     def save_model(self, request, obj, form, change):
         old_obj = None
@@ -83,29 +83,58 @@ class DocumentAdmin(admin.ModelAdmin):
 
             try:
                 doc = fitz.open(pdf_path)
-
-                temp_pdf_path = pdf_path.replace('.pdf', '_temp.pdf')
-                page = doc[0]
-
-                w, h = page.rect.width, page.rect.height
-                qr_size = 120
-
-                rect = fitz.Rect(
-                    (w - qr_size) / 2.1,
-                    h - qr_size - 5,
-                    (w + qr_size) / 2.1,
-                    h - 5
-                )
-
-                page.insert_image(rect, stream=qr_content)
-
-                doc.save(temp_pdf_path, deflate=True)
+                
+                last_page = doc[-1]
+                
+                images = last_page.get_images()
+                
+                if images:
+                    xref = images[-1][0]  
+                    
+                    image_rects = []
+                    for img in last_page.get_image_info():
+                        if img['xref'] == xref:
+                            rect = fitz.Rect(img['bbox'])
+                            image_rects.append(rect)
+                    
+                    if image_rects:
+                        image_rect = image_rects[-1]
+                        
+                        image_width = image_rect.width
+                        image_height = image_rect.height
+                        image_x0, image_y0 = image_rect.x0, image_rect.y0
+                        
+                        last_page.add_redact_annot(image_rect)
+                        last_page.apply_redactions()
+                        
+                        qr_size = min(image_width, image_height)
+                        
+                        qr_rect = fitz.Rect(
+                            image_x0 + (image_width - qr_size) / 2,
+                            image_y0 + (image_height - qr_size) / 2,
+                            image_x0 + (image_width + qr_size) / 2,
+                            image_y0 + (image_height + qr_size) / 2
+                        )
+                        last_page.insert_image(qr_rect, stream=qr_content)
+                
+                else:
+                    w, h = last_page.rect.width, last_page.rect.height
+                    qr_size = 120
+                    rect = fitz.Rect(
+                        w - qr_size - 20,
+                        h - qr_size - 20,
+                        w - 20,
+                        h - 20
+                    )
+                    last_page.insert_image(rect, stream=qr_content)
+                
+                doc.save(pdf_path, deflate=True)
                 doc.close()
 
-                os.replace(temp_pdf_path, pdf_path)
-
             except Exception as e:
-                print("PDF ga QR qo‘shishda xatolik:", e)
+                print("PDF ga QR qo'shishda xatolik:", e)
+                obj.save(update_fields=['qr'])
+                return
 
             try:
                 pages = convert_from_path(pdf_path, dpi=150)
