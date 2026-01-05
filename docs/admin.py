@@ -88,7 +88,7 @@ class DocumentAdmin(admin.ModelAdmin):
                 page = doc[0]
 
                 w, h = page.rect.width, page.rect.height
-                qr_size = 120
+                qr_size = 110
 
                 rect = fitz.Rect(
                     (w - qr_size) / 1.9,
