@@ -1,9 +1,10 @@
 from django.conf import settings
+import datetime
 
-def create_data(date: str) -> str:
-    
-    oy, yil = map(str, date.split())
-    yil = yil.replace("-yil", "")
-    kun, oy = oy.split('-')
-    oy = oy.replace(" ","").title()
-    return f"{settings.MOTH_SETTINGS[oy]} {kun}, {yil}"
+def create_data(date: datetime.date) -> str:
+    oy = date.month
+    kun = date.day
+    yil = date.year
+
+    oy_nomi = settings.MOTH_SETTINGS[oy]
+    return f"{oy_nomi} {kun}, {yil}"

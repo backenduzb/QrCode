@@ -138,16 +138,16 @@ RECAPTCHA_PUBLIC_KEY = '6LcnXDwsAAAAAKOgJYPFLOK0uCxfnY5YlSsqAdH9'
 RECAPTCHA_PRIVATE_KEY = '6LcnXDwsAAAAAKUYbxAYxAVyteEVTM__lh9T446H'
 
 MOTH_SETTINGS = {
-    "Aprel": "Apr",
-    "May": "May",
-    "Iyun": "Jun",
-    "Iyul": "Jul",
-    "Avgust": "Avg",
-    "Sentyabr": "Sep",
-    "Oktyabr": "Oct",
-    "Noyabr": "Nov",
-    "Dekabr": "Dec",
-    "Yanvar": "Jan",
-    "Fevral": "Feb",
-    "Mart": "March",
+    1: "Jan",
+    2: "Feb",
+    3: "March",
+    4: "Apr",
+    5: "May",
+    6: "Jun",
+    7: "Jul",
+    8: "Avg",
+    9: "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec",
 }
