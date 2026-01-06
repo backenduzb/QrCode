@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from multiprocessing import Manager
 from pathlib import Path
 import os
 
@@ -135,3 +136,18 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 RECAPTCHA_PUBLIC_KEY = '6LcnXDwsAAAAAKOgJYPFLOK0uCxfnY5YlSsqAdH9'
 RECAPTCHA_PRIVATE_KEY = '6LcnXDwsAAAAAKUYbxAYxAVyteEVTM__lh9T446H'
+
+MOTH_SETTINGS = {
+    "Aprel": "Apr",
+    "May": "May",
+    "Iyun": "Jun",
+    "Iyul": "Jul",
+    "Avgust", "Avg",
+    "Sentyabr", "Sep",
+    "Oktyabr", "Oct",
+    "Noyabr", "Nov",
+    "Dekabr", "Dec",
+    "Yanvar", "Jan",
+    "Fevral", "Feb",
+    "Mart", "March",
+}
