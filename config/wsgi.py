@@ -8,13 +8,13 @@ https://docs.djangoproject.com/en/6.0/howto/deployment/wsgi/
 """
 
 
+import os
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 application = get_wsgi_application()
 
-import os
 from django.conf import settings
 
 os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
