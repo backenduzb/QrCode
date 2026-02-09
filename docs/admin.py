@@ -159,8 +159,10 @@ class DocumentAdmin(admin.ModelAdmin):
         has_position = (
             obj.qr_x is not None and
             obj.qr_y is not None and
-            obj.qr_size
+            obj.qr_size is not None and
+            float(obj.qr_size) > 0
         )
+
 
         if not has_position and (file_changed or code_changed):
             if obj.file_qr:
@@ -187,13 +189,17 @@ class DocumentAdmin(admin.ModelAdmin):
                 size = obj.qr_size * w
                 size = max(1.0, min(size, w, h))
 
-                x = max(0.0, min(obj.qr_x, 1.0)) * w
-                y = max(0.0, min(obj.qr_y, 1.0)) * h
+                cx = max(0.0, min(float(obj.qr_x), 1.0)) * w
+                cy = max(0.0, min(float(obj.qr_y), 1.0)) * h
 
-                x = min(x, w - size)
-                y = min(y, h - size)
+                x = cx - size / 2
+                y = cy - size / 2
+
+                x = max(0.0, min(x, w - size))
+                y = max(0.0, min(y, h - size))
 
                 rect = fitz.Rect(x, y, x + size, y + size)
+
                 page.insert_image(rect, stream=qr_content)
 
                 with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp:
@@ -209,6 +215,7 @@ class DocumentAdmin(admin.ModelAdmin):
                         save=False
                     )
                 update_fields.append('file_qr')
+
 
                 try:
                     pages = convert_from_path(temp_pdf_path, dpi=150)

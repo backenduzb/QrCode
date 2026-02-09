@@ -4,10 +4,10 @@ from .forms import CaptchaForm
 from django.conf import settings
 from .utils import create_data
 
-def access_doc(request, pk):
-    doc = get_object_or_404(Document, document_code=pk)
+def access_doc(request, code):
+    doc = get_object_or_404(Document, document_code=code)
 
-    session_key = f"captcha_passed_{pk}"
+    session_key = f"captcha_passed_{code}"
     captcha_passed = request.session.get(session_key, False)
 
     if not captcha_passed:
@@ -39,5 +39,6 @@ def access_doc(request, pk):
             "captcha_passed": False,
             "captcha": settings.RECAPTCHA_PUBLIC_KEY,
         })
+    
+    return redirect("doc-access", code=code)
 
-    return redirect("documents:view", pk=pk)  
