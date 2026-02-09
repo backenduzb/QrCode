@@ -14,3 +14,10 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 application = get_wsgi_application()
+
+from django.conf import settings
+
+os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
+
+for p in ["uploads", "students", "docs"]:
+    os.makedirs(os.path.join(settings.MEDIA_ROOT, p), exist_ok=True)
