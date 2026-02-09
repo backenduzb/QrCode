@@ -208,14 +208,17 @@ class DocumentAdmin(admin.ModelAdmin):
                 doc.save(temp_pdf_path, deflate=True)
                 doc.close()
 
+                if obj.file:
+                    obj.file.delete(save=False)
+
                 with open(temp_pdf_path, 'rb') as processed_file:
-                    obj.file_qr.save(
+                    obj.file.save(
                         f'doc_{obj.document_code}.pdf',
                         File(processed_file),
                         save=False
                     )
-                update_fields.append('file_qr')
 
+                update_fields.append('file')
 
                 try:
                     pages = convert_from_path(temp_pdf_path, dpi=150)

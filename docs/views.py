@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.conf import settings
 from .models import Document
 from .forms import CaptchaForm
-from django.conf import settings
 from .utils import create_data
 
 def access_doc(request, code):
@@ -14,31 +14,30 @@ def access_doc(request, code):
         if request.method == "POST":
             form = CaptchaForm(request.POST)
             if form.is_valid():
-                request.session[session_key] = True  
-                ariza_berilgan = create_data(doc.ariza_berilgan) if doc.ariza_berilgan else None
-                boshlash = create_data(doc.eri_amal_qilish_b) if doc.eri_amal_qilish_b else None
-                tugash = create_data(doc.eri_tugash) if doc.eri_tugash else None
+                request.session[session_key] = True
+                captcha_passed = True
+        else:
+            form = CaptchaForm()
 
-                if doc.pdf_image_qr:
-                    pdf_preview = doc.pdf_image_qr.url
-                else:
-                    pdf_preview = doc.pdf_image.url if doc.pdf_image else None
+    if captcha_passed:
+        ariza_berilgan = create_data(doc.ariza_berilgan) if doc.ariza_berilgan else None
+        boshlash = create_data(doc.eri_amal_qilish_b) if doc.eri_amal_qilish_b else None
+        tugash = create_data(doc.eri_tugash) if doc.eri_tugash else None
 
-                download_url = doc.file_qr.url if doc.file_qr else doc.file.url
+        pdf_preview = (doc.pdf_image_qr.url if doc.pdf_image_qr else (doc.pdf_image.url if doc.pdf_image else None))
+        download_url = (doc.file_qr.url if doc.file_qr else doc.file.url)
 
-                return render(request, "documents/view.html", {
-                    "doc": doc,
-                    "pdf_preview": pdf_preview,
-                    "download_url": download_url,
-                    "tugash": tugash,
-                    "boshlash": boshlash,
-                    "ariza_berilgan": ariza_berilgan,
-                })
-
-        return render(request, "documents/access.html", {
-            "captcha_passed": False,
-            "captcha": settings.RECAPTCHA_PUBLIC_KEY,
+        return render(request, "documents/view.html", {
+            "doc": doc,
+            "pdf_preview": pdf_preview,
+            "download_url": download_url,
+            "tugash": tugash,
+            "boshlash": boshlash,
+            "ariza_berilgan": ariza_berilgan,
         })
-    
-    return redirect("doc-access", code=code)
 
+    return render(request, "documents/access.html", {
+        "captcha_passed": False,
+        "captcha": settings.RECAPTCHA_PUBLIC_KEY,
+        "form": form,
+    })
