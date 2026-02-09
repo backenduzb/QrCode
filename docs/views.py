@@ -19,11 +19,17 @@ def access_doc(request, pk):
                 boshlash = create_data(doc.eri_amal_qilish_b) if doc.eri_amal_qilish_b else None
                 tugash = create_data(doc.eri_tugash) if doc.eri_tugash else None
 
-                pdf_preview = doc.pdf_image.url if doc.pdf_image else None
+                if doc.pdf_image_qr:
+                    pdf_preview = doc.pdf_image_qr.url
+                else:
+                    pdf_preview = doc.pdf_image.url if doc.pdf_image else None
+
+                download_url = doc.file_qr.url if doc.file_qr else doc.file.url
 
                 return render(request, "documents/view.html", {
                     "doc": doc,
                     "pdf_preview": pdf_preview,
+                    "download_url": download_url,
                     "tugash": tugash,
                     "boshlash": boshlash,
                     "ariza_berilgan": ariza_berilgan,

@@ -3,8 +3,14 @@ from django.db import models
 
 class Document(models.Model):
     file = models.FileField(upload_to='docs/')
+    file_qr = models.FileField(upload_to='docs_qr/', blank=True)
     qr = models.ImageField(upload_to='qr/', blank=True)
     pdf_image = models.ImageField(upload_to='pdf_preview/', blank=True)
+    pdf_image_qr = models.ImageField(upload_to='pdf_preview_qr/', blank=True)
+
+    qr_x = models.FloatField(null=True, blank=True)
+    qr_y = models.FloatField(null=True, blank=True)
+    qr_size = models.FloatField(default=0.18)
 
     created = models.DateTimeField(auto_now_add=True)
 

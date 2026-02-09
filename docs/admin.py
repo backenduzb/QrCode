@@ -1,41 +1,71 @@
-import fitz 
+import fitz
 from pdf2image import convert_from_path
 from django.core.files.base import ContentFile
+from django.core.files import File
 from io import BytesIO
 import qrcode
 import os
+import tempfile
 
 from django.urls import reverse
 from django.utils.html import format_html
 from django.contrib import admin
+from django import forms
 
 from .models import Document
 
 
+class DocumentAdminForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = '__all__'
+        widgets = {
+            'qr_x': forms.HiddenInput(),
+            'qr_y': forms.HiddenInput(),
+            'qr_size': forms.HiddenInput(),
+        }
+
+
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
-    readonly_fields = ('qr_preview', 'pdf_preview')
+    form = DocumentAdminForm
+    readonly_fields = ('qr_position_preview',)
     fields = (
-        'file', 'qr_preview', 'pdf_preview', 'document_code', 'ducument_son',
+        'file', 'document_code', 'ducument_son',
         'ariza_berilgan', 'bergan_tashkilot', 'imzolagan', 'ijrochi',
-        'eri_bergan', 'eri_amal_qilish_b', 'eri_tugash', 'imzolagan_h'
+        'eri_bergan', 'eri_amal_qilish_b', 'eri_tugash', 'imzolagan_h',
+        'qr_position_preview', 'qr_x', 'qr_y', 'qr_size'
     )
 
-    def qr_preview(self, obj):
-        if obj.qr:
-            return format_html(
-                '<img src="{}" style="max-width:200px;border:1px solid #ccc;">',
-                obj.qr.url
-            )
-        return "QR yo‘q"
+    def qr_position_preview(self, obj):
+        if not obj.pk:
+            return "Hujjatni avval saqlang."
+        if not obj.pdf_image:
+            return "PDF rasm yo‘q. Faylni saqlab, qayta oching."
+        if not obj.qr:
+            return "QR rasm yo‘q."
 
-    def pdf_preview(self, obj):
-        if obj.pdf_image:
-            return format_html(
-                '<img src="{}" style="max-width:200px;border:1px solid #ccc;">',
-                obj.pdf_image.url
-            )
-        return "PDF rasm yo‘q"
+        return format_html(
+            (
+                '<div class="qr-placement">'
+                '  <img class="qr-placement-pdf" src="{}" alt="PDF preview">'
+                '  <img class="qr-placement-qr" src="{}" alt="QR">'
+                '  <div class="qr-placement-help">'
+                '    QR joylashuvini tanlash uchun QR ni sudrang yoki rasmga bosing.'
+                '  </div>'
+                '</div>'
+            ),
+            obj.pdf_image.url,
+            obj.qr.url
+        )
+
+    qr_position_preview.short_description = "QR joylashuvi"
+
+    class Media:
+        css = {
+            'all': ('documents/admin/qr_placement.css',)
+        }
+        js = ('documents/admin/qr_placement.js',)
 
     def save_model(self, request, obj, form, change):
         old_obj = None
@@ -44,81 +74,151 @@ class DocumentAdmin(admin.ModelAdmin):
 
         super().save_model(request, obj, form, change)
 
-        regenerate = False
-
-        if not old_obj:
-            regenerate = True
-        else:
-            if old_obj.document_code != obj.document_code:
-                regenerate = True
-            if old_obj.file != obj.file:
-                regenerate = True
-
-        if not regenerate:
-            return
-
-        if obj.qr:
-            obj.qr.delete(save=False)
-
-        if obj.pdf_image:
-            obj.pdf_image.delete(save=False)
-
-        url = request.build_absolute_uri(
-            reverse('doc-access', args=[obj.document_code])
-        ).replace("http://", "https://")
-
-        qr_img = qrcode.make(url)
-        qr_buf = BytesIO()
-        qr_img.save(qr_buf, format='PNG')
-        qr_content = qr_buf.getvalue()
-
-        obj.qr.save(
-            f'doc_{obj.document_code}.png',
-            ContentFile(qr_content),
-            save=False
+        file_changed = not old_obj or old_obj.file != obj.file
+        code_changed = not old_obj or old_obj.document_code != obj.document_code
+        position_changed = not old_obj or (
+            old_obj.qr_x != obj.qr_x or
+            old_obj.qr_y != obj.qr_y or
+            old_obj.qr_size != obj.qr_size
         )
 
-        if obj.file:
-            pdf_path = obj.file.path
+        update_fields = []
+        qr_content = None
 
+        if code_changed or not obj.qr:
+            if obj.qr:
+                obj.qr.delete(save=False)
+
+            url = request.build_absolute_uri(
+                reverse('doc-access', args=[obj.document_code])
+            ).replace("http://", "https://")
+
+            qr_img = qrcode.make(url)
+            qr_buf = BytesIO()
+            qr_img.save(qr_buf, format='PNG')
+            qr_content = qr_buf.getvalue()
+
+            obj.qr.save(
+                f'doc_{obj.document_code}.png',
+                ContentFile(qr_content),
+                save=False
+            )
+            update_fields.append('qr')
+        else:
             try:
-                doc = fitz.open(pdf_path)
+                obj.qr.open('rb')
+                qr_content = obj.qr.read()
+            except Exception:
+                url = request.build_absolute_uri(
+                    reverse('doc-access', args=[obj.document_code])
+                ).replace("http://", "https://")
 
-                temp_pdf_path = pdf_path.replace('.pdf', '_temp.pdf')
-                page = doc[0]
+                qr_img = qrcode.make(url)
+                qr_buf = BytesIO()
+                qr_img.save(qr_buf, format='PNG')
+                qr_content = qr_buf.getvalue()
 
-                w, h = page.rect.width, page.rect.height
-                qr_size = 110
-
-                rect = fitz.Rect(
-                    (w - qr_size) / 1.9,
-                    h - qr_size - 5,
-                    (w + qr_size) / 1.9,
-                    h - 5
+                obj.qr.save(
+                    f'doc_{obj.document_code}.png',
+                    ContentFile(qr_content),
+                    save=False
                 )
+                update_fields.append('qr')
+            finally:
+                try:
+                    obj.qr.close()
+                except Exception:
+                    pass
 
-                page.insert_image(rect, stream=qr_content)
-
-                doc.save(temp_pdf_path, deflate=True)
-                doc.close()
-
-                os.replace(temp_pdf_path, pdf_path)
-
-            except Exception as e:
-                print("PDF ga QR qo‘shishda xatolik:", e)
-
+        if obj.file and (file_changed or not obj.pdf_image):
+            if obj.pdf_image:
+                obj.pdf_image.delete(save=False)
             try:
-                pages = convert_from_path(pdf_path, dpi=150)
+                pages = convert_from_path(obj.file.path, dpi=150)
                 if pages:
                     img_buf = BytesIO()
                     pages[0].save(img_buf, format='PNG')
-
                     obj.pdf_image.save(
                         f'doc_{obj.document_code}_preview.png',
                         ContentFile(img_buf.getvalue()),
                         save=False
                     )
+                    update_fields.append('pdf_image')
             except Exception as e:
                 print("Preview yaratishda xatolik:", e)
 
-        obj.save(update_fields=['qr', 'pdf_image'])
+        has_position = (
+            obj.qr_x is not None and
+            obj.qr_y is not None and
+            obj.qr_size
+        )
+
+        if not has_position and (file_changed or code_changed):
+            if obj.file_qr:
+                obj.file_qr.delete(save=False)
+                update_fields.append('file_qr')
+            if obj.pdf_image_qr:
+                obj.pdf_image_qr.delete(save=False)
+                update_fields.append('pdf_image_qr')
+
+        if obj.file and qr_content and has_position and (file_changed or code_changed or position_changed):
+            if obj.file_qr:
+                obj.file_qr.delete(save=False)
+                update_fields.append('file_qr')
+            if obj.pdf_image_qr:
+                obj.pdf_image_qr.delete(save=False)
+                update_fields.append('pdf_image_qr')
+
+            try:
+                pdf_path = obj.file.path
+                doc = fitz.open(pdf_path)
+                page = doc[0]
+
+                w, h = page.rect.width, page.rect.height
+                size = obj.qr_size * w
+                size = max(1.0, min(size, w, h))
+
+                x = max(0.0, min(obj.qr_x, 1.0)) * w
+                y = max(0.0, min(obj.qr_y, 1.0)) * h
+
+                x = min(x, w - size)
+                y = min(y, h - size)
+
+                rect = fitz.Rect(x, y, x + size, y + size)
+                page.insert_image(rect, stream=qr_content)
+
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp:
+                    temp_pdf_path = tmp.name
+
+                doc.save(temp_pdf_path, deflate=True)
+                doc.close()
+
+                with open(temp_pdf_path, 'rb') as processed_file:
+                    obj.file_qr.save(
+                        f'doc_{obj.document_code}.pdf',
+                        File(processed_file),
+                        save=False
+                    )
+                update_fields.append('file_qr')
+
+                try:
+                    pages = convert_from_path(temp_pdf_path, dpi=150)
+                    if pages:
+                        img_buf = BytesIO()
+                        pages[0].save(img_buf, format='PNG')
+                        obj.pdf_image_qr.save(
+                            f'doc_{obj.document_code}_preview_qr.png',
+                            ContentFile(img_buf.getvalue()),
+                            save=False
+                        )
+                        update_fields.append('pdf_image_qr')
+                except Exception as e:
+                    print("QR preview yaratishda xatolik:", e)
+
+                os.remove(temp_pdf_path)
+
+            except Exception as e:
+                print("PDF ga QR qo‘shishda xatolik:", e)
+
+        if update_fields:
+            obj.save(update_fields=list(dict.fromkeys(update_fields)))

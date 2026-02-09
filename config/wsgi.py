@@ -19,5 +19,5 @@ from django.conf import settings
 
 os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
 
-for p in ["pdf_preview", "docs", "qr"]:
+for p in ["pdf_preview", "docs", "qr", "docs_qr", "pdf_preview_qr"]:
     os.makedirs(os.path.join(settings.MEDIA_ROOT, p), exist_ok=True)
