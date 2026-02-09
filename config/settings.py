@@ -69,11 +69,11 @@ TEMPLATES = [
 
 DATABASE_URL = os.getenv("DATABASE_PUBLIC_URL", "").strip()
 
-if DATABASE_URL:
-    import urllib.parse as up
+# if DATABASE_URL:
+import urllib.parse as up
 
-    url = up.urlparse(DATABASE_URL)
-    DATABASES = {
+url = up.urlparse(DATABASE_URL)
+DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": url.path.lstrip("/"),
@@ -83,13 +83,13 @@ if DATABASE_URL:
             "PORT": url.port or 5432,
         }
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+# else:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.sqlite3",
+#             "NAME": BASE_DIR / "db.sqlite3",
+#         }
+#     }
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -104,7 +104,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "/data/media")
