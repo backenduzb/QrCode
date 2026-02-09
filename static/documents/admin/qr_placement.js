@@ -4,143 +4,186 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const pdfImg = container.querySelector('.qr-placement-pdf');
   const qrImg = container.querySelector('.qr-placement-qr');
+
   const qrXField = document.getElementById('id_qr_x');
   const qrYField = document.getElementById('id_qr_y');
   const qrSizeField = document.getElementById('id_qr_size');
 
+  const scaleInput = container.querySelector('.qr-scale-input');
+  const scaleValue = container.querySelector('.qr-scale-value');
+
   if (!pdfImg || !qrImg || !qrXField || !qrYField || !qrSizeField) return;
+
+  const clamp01 = (v) => Math.max(0, Math.min(1, v));
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
   let sizeRel = parseFloat(qrSizeField.value);
   if (!Number.isFinite(sizeRel) || sizeRel <= 0) {
     sizeRel = 0.18;
-    qrSizeField.value = sizeRel.toString();
+    qrSizeField.value = String(sizeRel);
   }
 
-  const getImageMetrics = () => {
+  const getMetrics = () => {
     const imgRect = pdfImg.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
+    const contRect = container.getBoundingClientRect();
     return {
-      left: imgRect.left - containerRect.left,
-      top: imgRect.top - containerRect.top,
+      left: imgRect.left - contRect.left,
+      top: imgRect.top - contRect.top,
       width: imgRect.width,
       height: imgRect.height,
     };
   };
 
+  const sizePx = (metrics) => Math.max(1, sizeRel * metrics.width);
+
   const applySize = () => {
-    qrImg.style.width = `${sizeRel * 100}%`;
+    const m = getMetrics();
+    qrImg.style.width = `${sizePx(m)}px`;
+    if (scaleValue) scaleValue.textContent = `${Math.round(sizeRel * 100)}%`;
   };
 
-  const clampPosition = (leftPx, topPx) => {
-    const metrics = getImageMetrics();
-    const sizePx = sizeRel * metrics.width;
+  const setHiddenFromLeftTop = (leftPx, topPx, metrics) => {
+    const s = sizePx(metrics);
+    const x = (leftPx - metrics.left + s / 2) / metrics.width;
+    const y = (topPx - metrics.top + s / 2) / metrics.height;
 
-    const minLeft = metrics.left;
-    const maxLeft = metrics.left + metrics.width - sizePx;
-    const minTop = metrics.top;
-    const maxTop = metrics.top + metrics.height - sizePx;
-
-    const clampedLeft = Math.min(Math.max(leftPx, minLeft), maxLeft);
-    const clampedTop = Math.min(Math.max(topPx, minTop), maxTop);
-
-    return { left: clampedLeft, top: clampedTop, metrics, sizePx };
+    qrXField.value = clamp01(x).toFixed(6);
+    qrYField.value = clamp01(y).toFixed(6);
   };
 
-  const setHiddenFields = (leftPx, topPx, metrics) => {
-    const x = (leftPx - metrics.left) / metrics.width;
-    const y = (topPx - metrics.top) / metrics.height;
-
-    qrXField.value = Math.max(0, Math.min(1, x)).toFixed(6);
-    qrYField.value = Math.max(0, Math.min(1, y)).toFixed(6);
-  };
-
-  const setPositionFromFields = () => {
+  const leftTopFromHidden = (metrics) => {
+    const s = sizePx(metrics);
     const x = parseFloat(qrXField.value);
     const y = parseFloat(qrYField.value);
     const hasPos = Number.isFinite(x) && Number.isFinite(y);
 
-    const metrics = getImageMetrics();
-    const sizePx = sizeRel * metrics.width;
-    const leftPx = metrics.left + (hasPos ? x : 0.5) * metrics.width - sizePx / 2;
-    const topPx = metrics.top + (hasPos ? y : 0.5) * metrics.height - sizePx / 2;
+    const cx = metrics.left + (hasPos ? clamp01(x) : 0.5) * metrics.width;
+    const cy = metrics.top + (hasPos ? clamp01(y) : 0.5) * metrics.height;
 
-    const clamped = clampPosition(leftPx, topPx);
-    qrImg.style.left = `${clamped.left}px`;
-    qrImg.style.top = `${clamped.top}px`;
+    let left = cx - s / 2;
+    let top = cy - s / 2;
 
-    if (hasPos) {
-      container.classList.remove('unset');
-    } else {
-      container.classList.add('unset');
-    }
+    left = clamp(left, metrics.left, metrics.left + metrics.width - s);
+    top = clamp(top, metrics.top, metrics.top + metrics.height - s);
+
+    return { left, top, hasPos };
   };
 
-  const placeAt = (clientX, clientY) => {
-    const metrics = getImageMetrics();
-    const sizePx = sizeRel * metrics.width;
-    const leftPx = clientX - metrics.left - sizePx / 2;
-    const topPx = clientY - metrics.top - sizePx / 2;
-
-    const clamped = clampPosition(leftPx, topPx);
-    qrImg.style.left = `${clamped.left}px`;
-    qrImg.style.top = `${clamped.top}px`;
-    setHiddenFields(clamped.left, clamped.top, clamped.metrics);
-    container.classList.remove('unset');
+  const setQRLeftTop = (left, top) => {
+    qrImg.style.left = `${left}px`;
+    qrImg.style.top = `${top}px`;
   };
 
-  let dragging = false;
-  let startX = 0;
-  let startY = 0;
-  let startLeft = 0;
-  let startTop = 0;
+  const syncFromFields = () => {
+    const m = getMetrics();
+    applySize();
+    const { left, top, hasPos } = leftTopFromHidden(m);
+    setQRLeftTop(left, top);
 
-  qrImg.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    dragging = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    startLeft = parseFloat(qrImg.style.left) || 0;
-    startTop = parseFloat(qrImg.style.top) || 0;
-    qrImg.style.cursor = 'grabbing';
-  });
+    if (hasPos) container.classList.remove('unset');
+    else container.classList.add('unset');
+  };
 
-  qrImg.addEventListener('dragstart', (e) => {
-    e.preventDefault();
-  });
+  const placeCenterAt = (xInContainer, yInContainer) => {
+    const m = getMetrics();
+    const s = sizePx(m);
 
-  document.addEventListener('mousemove', (e) => {
-    if (!dragging) return;
-    const deltaX = e.clientX - startX;
-    const deltaY = e.clientY - startY;
-    const clamped = clampPosition(startLeft + deltaX, startTop + deltaY);
-    qrImg.style.left = `${clamped.left}px`;
-    qrImg.style.top = `${clamped.top}px`;
-    setHiddenFields(clamped.left, clamped.top, clamped.metrics);
-  });
+    let left = xInContainer - s / 2;
+    let top = yInContainer - s / 2;
 
-  document.addEventListener('mouseup', () => {
-    if (!dragging) return;
-    dragging = false;
-    qrImg.style.cursor = 'move';
+    left = clamp(left, m.left, m.left + m.width - s);
+    top = clamp(top, m.top, m.top + m.height - s);
+
+    setQRLeftTop(left, top);
+    setHiddenFromLeftTop(left, top, m);
     container.classList.remove('unset');
-  });
+  };
 
   container.addEventListener('click', (e) => {
     if (e.target === qrImg) return;
-    const rect = container.getBoundingClientRect();
-    placeAt(e.clientX - rect.left, e.clientY - rect.top);
+
+    const contRect = container.getBoundingClientRect();
+    const x = e.clientX - contRect.left;
+    const y = e.clientY - contRect.top;
+
+    const m = getMetrics();
+    const insidePdf =
+      x >= m.left && x <= m.left + m.width &&
+      y >= m.top && y <= m.top + m.height;
+
+    if (!insidePdf) return;
+
+    placeCenterAt(x, y);
+  });
+  let dragging = false;
+  let startPointerX = 0;
+  let startPointerY = 0;
+  let startLeft = 0;
+  let startTop = 0;
+
+  qrImg.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    qrImg.setPointerCapture(e.pointerId);
+    dragging = true;
+
+    startPointerX = e.clientX;
+    startPointerY = e.clientY;
+    startLeft = parseFloat(qrImg.style.left) || 0;
+    startTop = parseFloat(qrImg.style.top) || 0;
+
+    qrImg.style.cursor = 'grabbing';
   });
 
-  const syncLayout = () => {
-    applySize();
-    setPositionFromFields();
-  };
+  qrImg.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
 
-  if (pdfImg.complete) {
-    syncLayout();
-  } else {
-    pdfImg.addEventListener('load', syncLayout, { once: true });
+    const dx = e.clientX - startPointerX;
+    const dy = e.clientY - startPointerY;
+
+    const m = getMetrics();
+    const s = sizePx(m);
+
+    let left = startLeft + dx;
+    let top = startTop + dy;
+
+    left = clamp(left, m.left, m.left + m.width - s);
+    top = clamp(top, m.top, m.top + m.height - s);
+
+    setQRLeftTop(left, top);
+    setHiddenFromLeftTop(left, top, m);
+  });
+
+  qrImg.addEventListener('pointerup', (e) => {
+    if (!dragging) return;
+    dragging = false;
+    try { qrImg.releasePointerCapture(e.pointerId); } catch (_) {}
+    qrImg.style.cursor = 'grab';
+    container.classList.remove('unset');
+  });
+
+  if (scaleInput) {
+
+    scaleInput.value = String(clamp(sizeRel, 0.05, 0.6));
+    if (scaleValue) scaleValue.textContent = `${Math.round(sizeRel * 100)}%`;
+
+    scaleInput.addEventListener('input', () => {
+      const v = parseFloat(scaleInput.value);
+      if (!Number.isFinite(v)) return;
+
+      sizeRel = clamp(v, 0.05, 0.6);
+      qrSizeField.value = sizeRel.toFixed(2);
+
+      const m = getMetrics();
+      const { left, top, hasPos } = leftTopFromHidden(m);
+      applySize();
+      setQRLeftTop(left, top);
+
+      if (hasPos) setHiddenFromLeftTop(left, top, m);
+    });
   }
 
-  window.addEventListener('resize', syncLayout);
+  if (pdfImg.complete) syncFromFields();
+  else pdfImg.addEventListener('load', syncFromFields, { once: true });
+
+  window.addEventListener('resize', syncFromFields);
 });

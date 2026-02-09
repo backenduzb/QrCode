@@ -47,17 +47,26 @@ class DocumentAdmin(admin.ModelAdmin):
 
         return format_html(
             (
-                '<div class="qr-placement">'
+                '<div class="qr-placement unset">'
+                '  <div class="qr-toolbar">'
+                '    <label class="qr-scale">'
+                '      <span>QR size</span>'
+                '      <input type="range" min="0.05" max="0.60" step="0.01" value="{}" class="qr-scale-input">'
+                '      <span class="qr-scale-value"></span>'
+                '    </label>'
+                '  </div>'
                 '  <img class="qr-placement-pdf" src="{}" alt="PDF preview">'
                 '  <img class="qr-placement-qr" src="{}" alt="QR">'
                 '  <div class="qr-placement-help">'
-                '    QR joylashuvini tanlash uchun QR ni sudrang yoki rasmga bosing.'
+                '    QR joylashuvini tanlash: PDF ustiga bosing yoki QR ni sudrang. Slider bilan kattaligini o‘zgartiring.'
                 '  </div>'
                 '</div>'
             ),
+            (obj.qr_size or 0.18),
             obj.pdf_image.url,
             obj.qr.url
         )
+
 
     qr_position_preview.short_description = "QR joylashuvi"
 
