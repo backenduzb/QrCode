@@ -107,7 +107,8 @@ STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = "/media"
+MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "/data/media")
+
 
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
