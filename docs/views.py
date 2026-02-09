@@ -28,7 +28,8 @@ def access_doc(request, pk):
                     'ariza_berilgan': ariza_berilgan,
                 })  
         return render(request, 'documents/access.html', {
-            'captcha_passed': False
+            'captcha_passed': False,
+            'captcha': settings.RECAPTCHA_PUBLIC_KEY
         })
     return render(request, 'documents/access.html', {
         'captcha_passed': True,

@@ -17,7 +17,7 @@
     {% if not captcha_passed %}
     <form method="post" id="captcha-form">
         {% csrf_token %}
-        <div class="g-recaptcha" data-sitekey="6LcnXDwsAAAAAKOgJYPFLOK0uCxfnY5YlSsqAdH9"
+        <div class="g-recaptcha" data-sitekey="{{ captcha }}"
             data-callback="onCaptchaSuccess"></div>
     </form>
 
