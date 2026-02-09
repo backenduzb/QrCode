@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
+DATABASE_URL = os.getenv("DATABASE_PUBLIC_URL", "").strip()
 
 if DATABASE_URL:
     import urllib.parse as up
@@ -110,6 +110,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "/data/media")
 
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
