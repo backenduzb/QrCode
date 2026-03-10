@@ -95,10 +95,10 @@ class DocumentAdmin(admin.ModelAdmin):
         file_changed = not old_obj or ("file" in form.changed_data)
         code_changed = not old_obj or old_obj.document_code != obj.document_code
         position_changed = (
-            not old_obj or
-            old_obj.qr_x != obj.qr_x or
-            old_obj.qr_y != obj.qr_y or
-            old_obj.qr_size != obj.qr_size
+            not old_obj
+            or old_obj.qr_x != obj.qr_x
+            or old_obj.qr_y != obj.qr_y
+            or old_obj.qr_size != obj.qr_size
         )
 
         super().save_model(request, obj, form, change)
@@ -106,6 +106,7 @@ class DocumentAdmin(admin.ModelAdmin):
         update_fields = []
         qr_content = None
 
+        # QR rasm yaratish
         if code_changed or not obj.qr:
             if obj.qr:
                 obj.qr.delete(save=False)
@@ -129,28 +130,13 @@ class DocumentAdmin(admin.ModelAdmin):
             try:
                 obj.qr.open("rb")
                 qr_content = obj.qr.read()
-            except Exception:
-                url = request.build_absolute_uri(
-                    reverse("doc-access", args=[obj.document_code])
-                ).replace("http://", "https://")
-
-                qr_img = qrcode.make(url)
-                qr_buf = BytesIO()
-                qr_img.save(qr_buf, format="PNG")
-                qr_content = qr_buf.getvalue()
-
-                obj.qr.save(
-                    f"doc_{obj.document_code}.png",
-                    ContentFile(qr_content),
-                    save=False,
-                )
-                update_fields.append("qr")
             finally:
                 try:
                     obj.qr.close()
                 except Exception:
                     pass
 
+        # Original PDF preview yaratish
         if obj.file and (file_changed or not obj.pdf_image):
             if obj.pdf_image:
                 obj.pdf_image.delete(save=False)
@@ -170,10 +156,10 @@ class DocumentAdmin(admin.ModelAdmin):
                 print("Preview yaratishda xatolik:", e)
 
         has_position = (
-            obj.qr_x is not None and
-            obj.qr_y is not None and
-            obj.qr_size is not None and
-            float(obj.qr_size) > 0
+            obj.qr_x is not None
+            and obj.qr_y is not None
+            and obj.qr_size is not None
+            and float(obj.qr_size) > 0
         )
 
         if not has_position:
@@ -191,7 +177,14 @@ class DocumentAdmin(admin.ModelAdmin):
                 obj.save(update_fields=list(dict.fromkeys(update_fields)))
             return
 
-        if obj.file and qr_content and (file_changed or code_changed or position_changed or not obj.file_qr or not obj.pdf_image_qr):
+        # QR bilan PDF va preview yaratish
+        if obj.file and qr_content and (
+            file_changed
+            or code_changed
+            or position_changed
+            or not obj.file_qr
+            or not obj.pdf_image_qr
+        ):
             if obj.file_qr:
                 obj.file_qr.delete(save=False)
                 obj.file_qr = None
@@ -200,7 +193,10 @@ class DocumentAdmin(admin.ModelAdmin):
                 obj.pdf_image_qr.delete(save=False)
                 obj.pdf_image_qr = None
 
+            temp_pdf_path = None
+
             try:
+                pdf_path = obj.file.path   # ENG MUHIM TUZATISH
                 doc = fitz.open(pdf_path)
                 page = doc[0]
 
@@ -213,6 +209,7 @@ class DocumentAdmin(admin.ModelAdmin):
                 cx = max(0.0, min(float(obj.qr_x), 1.0)) * w
                 cy = max(0.0, min(float(obj.qr_y), 1.0)) * h
 
+                # center-based
                 x = cx - size / 2
                 y = cy - size / 2
 
@@ -250,11 +247,12 @@ class DocumentAdmin(admin.ModelAdmin):
                 except Exception as e:
                     print("QR preview yaratishda xatolik:", e)
 
-                if os.path.exists(temp_pdf_path):
-                    os.remove(temp_pdf_path)
-
             except Exception as e:
                 print("PDF ga QR qo‘shishda xatolik:", e)
+
+            finally:
+                if temp_pdf_path and os.path.exists(temp_pdf_path):
+                    os.remove(temp_pdf_path)
 
         if update_fields:
             obj.save(update_fields=list(dict.fromkeys(update_fields)))

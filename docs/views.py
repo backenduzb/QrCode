@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404
 from django.conf import settings
-from .models import Document
+from django.shortcuts import render, get_object_or_404
+
 from .forms import CaptchaForm
+from .models import Document
 from .utils import create_data
+
 
 def access_doc(request, code):
     doc = get_object_or_404(Document, document_code=code)
@@ -18,14 +20,20 @@ def access_doc(request, code):
                 captcha_passed = True
         else:
             form = CaptchaForm()
+    else:
+        form = None
 
     if captcha_passed:
         ariza_berilgan = create_data(doc.ariza_berilgan) if doc.ariza_berilgan else None
         boshlash = create_data(doc.eri_amal_qilish_b) if doc.eri_amal_qilish_b else None
         tugash = create_data(doc.eri_tugash) if doc.eri_tugash else None
 
-        pdf_preview = (doc.pdf_image_qr.url if doc.pdf_image_qr else (doc.pdf_image.url if doc.pdf_image else None))
-        download_url = (doc.file_qr.url if doc.file_qr else doc.file.url)
+        pdf_preview = (
+            doc.pdf_image_qr.url if doc.pdf_image_qr
+            else (doc.pdf_image.url if doc.pdf_image else None)
+        )
+
+        download_url = doc.file_qr.url if doc.file_qr else doc.file.url
 
         return render(request, "documents/view.html", {
             "doc": doc,
